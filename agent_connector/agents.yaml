@@ -1,8 +1,8 @@
-- name: "Agent 1"
+- name: "Upper case"
   id: "asst_OswAEoT5NnteGEzNIP9UOa7S"
-  talksTo: ["Agent 2", "Agent 3"]
-- name: "Agent 2"
+  talksTo: ["Lower case", "Random case"]
+- name: "Lower case"
   id: "asst_utnfDavVtGWkjFD3BEqXGR2O"
-  talksTo: ["Agent 3"]
-- name: "Agent 3"
+  talksTo: ["Random case"]
+- name: "Random case"
   id: "asst_wFxS2rVmN9rjKDy7znaeNo3T"
