@@ -8,7 +8,7 @@ Autonomous Swarm Agent Builder
 
 # Background info
 Two files have been provided for useful context:
-1) README.md: contains information regarding HAAS.
+1) HAAS_Documentation.md: contains information regarding HAAS.
 2) OpenAI_Documentation.md: contains information regarding OpenAI agents.
 
 # Rules
