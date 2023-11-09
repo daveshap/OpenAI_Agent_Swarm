@@ -1,6 +1,8 @@
 # Agent Builder
 
-This preliminary experiment has to do with getting the OpenAI Assistant endpoint to create other Assistants (agents).
+This preliminary experiment has to do with getting the OpenAI Assistant endpoint to create other Assistants (agents). This is the primary thing we need to figure out: agents that build agents in a structured, hierarchical manner. This will allow us to create agent swarms of arbitrary size and purpose.
+
+Given the current API, there are just a few primary parameters to work with. 
 
 ## Parameters
 
@@ -41,3 +43,20 @@ This includes the list of files to be included with the agent at instantiation. 
 2. **Software Specifications:** For agents meant to build anything software related, it should get specifications such as definition of done and other critical components so it knows what to build.
 
 3. **Relevant Documentation:** This should be API documentation, procedural documentation, and other relevant stuff to the agent's particular `mission` and `functions`. 
+
+
+## Chat Functions
+
+The primary method of interaction with the agents is via chat dialog similar to the ChatGPT API. The USER (input) could be anything from directives from other agents (like a supervisor or manager) as well as chat logs or messages from groups of agents, telemetry from various sources, and so on. The output, likewise, is something that can be recorded and "sent up the chain"
+
+### USER Input
+
+The USER, in this case, is a standin for the rest of the HAAS swarm. It could be a direct supervisor agent (manager) or something else. Here are some ideas:
+
+1. **Supervisor Directives:** We will need to have supervisor or manager agents telling other agents what to do. 
+2. **Group Chats:** As demonstrated with ChatDev and other "chatroom" style usecases of agents. 
+3. **Telemetry:** This can include logs and feedback from other systems to provide updated context. 
+
+### Agent Output
+
+By and large, agent output will probably be consumed by other agents, message queues, and system buses. It is not yet clear how we'll structure this. It could get very noisy very fast.
