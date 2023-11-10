@@ -28,5 +28,5 @@ gpt-4-1106-preview
 - Retrieval
 
 # Files
-- READE.md
+- README.md
 - OpenAI_Documentation.md
