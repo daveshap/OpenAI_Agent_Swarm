@@ -1,3 +1,7 @@
+# env
+from dotenv import load_dotenv
+load_dotenv()
+
 # tool_creator assistant
 import tool_maker.tool_creator as creator 
 from tool_maker.creator_config import AssistantConfig as CreatorConfig 
@@ -5,6 +9,7 @@ from tool_maker.creator_config import AssistantConfig as CreatorConfig
 # tool_user assistant
 import tool_maker.tool_user as user
 from tool_maker.user_config import AssistantConfig as UserConfig 
+
 
 if __name__ == '__main__':
     # create the tool creator assistant and chat to create your tools
