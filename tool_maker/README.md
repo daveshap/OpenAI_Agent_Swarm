@@ -10,10 +10,10 @@ run the ```tool_maker_demo.py``` file.
 You will be prompted to define a tool for creation. The assistant will then generate an OpenAI tool compatible JSON schema defining the name of the new function, it's description and the input argument schema. It will proceed to add this tool to the current assistant.
 
 (Example)
-![[DEMO.png]]
+![[imgs/DEMO.png]]
 
 (Update to assistant on OpenAI servers)
-![[OpenAI_Tools.png]]
+![[imgs/OpenAI_Tools.png]]
 
 ## Assistant Instructions
 
@@ -50,7 +50,7 @@ Note: Remember to prioritize user requirements and emphasize clear communication
 ```
 
 ## Flowchart
-![[flow.png]]
+![[imgs/flow.png]]
 
 # Next Steps
 This process allows the assistant to request a function with some parameters, and allows for the addition of that function to the assistants tool, but no such function is ever actually made.
