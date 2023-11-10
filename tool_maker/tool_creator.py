@@ -5,7 +5,7 @@ create a tool-creator assistant using the assistant creation API
 import json
 import os
 
-from shared.utils import chat as chat_loop
+from shared.agent_chat import AgentChat
 
 from openai import OpenAI
 client = OpenAI() # be sure to set your OPENAI_API_KEY environment variable
@@ -60,4 +60,6 @@ def talk_to_tool_creator(assistant_details):
     # Create thread
     thread = client.beta.threads.create()
 
-    chat_loop(client, thread, tool_creator, functions)
+    # chat with the assistant
+    agent = AgentChat(client, thread, tool_creator, functions)
+    agent.have_fullscreen_convo()
