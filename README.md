@@ -126,3 +126,32 @@ From the Executive Agents, the swarm grows, branching out into a tree of special
 ### The Saga Continues
 
 As the HAAS evolves, the SOB continues to deliberate, the Executive Agents continue to manage, and the sub-agents continue to execute. The mission to reduce suffering, increase prosperity, and enhance understanding is an ongoing saga, played out across the digital cosmos, with the SOB at the helm, steering the swarm towards a future where their mission is not just an aspiration but a reality.
+
+### Usage - tool creator + tool user
+
+#### Environment Setup
+
+- Source the `.env` file to set the environment variables:
+  ```shell
+  source .env
+  ```
+
+#### Tool Creation
+
+Run the `tool_demo` script to create a tool_creator, chat with the tool_creator to make a tool, create a tool_user equipped with the tool, and chat with the tool_user to use the tool. Check out the [demo video](https://youtu.be/vHZKIltZ_Ys) for example usage.
+
+```shell
+python tool_demo.py
+```
+
+- From the `tool_creator` script:
+  - chat with the bot about what you want the tool to do, and it will create the tool for you.
+  - The tool will be saved in the `tools` directory with both the `.json` and `.py` files
+  - The assistant will be saved in the `assistants` directory as `tool_creator.json`.
+
+#### Tool Usage
+
+- From the `tool_user` script:
+  - The assistant will use all the tools in the `tools` directory.
+  - Interact with the assistant in the chat to use the integrated tools.
+  - The assistant will be saved in the `assistants` directory as `tool_user.json`.
