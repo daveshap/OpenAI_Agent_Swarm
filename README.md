@@ -1,5 +1,11 @@
 # Hierarchical Autonomous Agent Swarm (HAAS)
 
+> !!!! ANNOUNCEMENT
+
+We have our first GPT Concierge. You can chat with this custom ChatGPT to figure out what's going on! 
+
+- **HAAS Board Concierge:** [https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge](https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge)
+
 ## Overview
 
 The Hierarchical Autonomous Agent Swarm (HAAS) is a groundbreaking initiative that leverages OpenAI's latest advancements in agent-based APIs to create a self-organizing and ethically governed ecosystem of AI agents. Drawing inspiration from the ACE Framework, HAAS introduces a novel approach to AI governance and operation, where a hierarchy of specialized agents, each with distinct roles and capabilities, collaborate to solve complex problems and perform a wide array of tasks.
