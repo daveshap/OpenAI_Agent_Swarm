@@ -51,7 +51,7 @@ The primary method of interaction with the agents is via chat dialog similar to 
 
 ### USER Input
 
-The USER, in this case, is a standin for the rest of the HAAS swarm. It could be a direct supervisor agent (manager) or something else. Here are some ideas:
+The USER, in this case, is a stand in for the rest of the HAAS swarm. It could be a direct supervisor agent (manager) or something else. Here are some ideas:
 
 1. **Supervisor Directives:** We will need to have supervisor or manager agents telling other agents what to do. 
 2. **Group Chats:** As demonstrated with ChatDev and other "chatroom" style usecases of agents. 
