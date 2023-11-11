@@ -6,9 +6,9 @@ import json
 import os
 
 from shared.utils import chat as chat_loop
+from shared.openai_config import get_openai_client 
 
-from openai import OpenAI
-client = OpenAI() # be sure to set your OPENAI_API_KEY environment variable
+client = get_openai_client()
 
 def create_tool_creator(assistant_details):
     # create the assistant
