@@ -87,7 +87,7 @@ def handleThreadForAgent(agent):
                     function_name = action.function.name
                     arguments = json.loads(action.function.arguments)
                     if function_name == 'sendMessage':
-                        if arguments['recipient'] in agent['talksTo']:
+                        if ('talksTo' in agent) and (arguments['recipient'] in agent['talksTo']):
                             print(f"[{agent['name']}]->[{arguments['recipient']}] {arguments['message']}")
                             queues[arguments['recipient']].put(arguments['message'])
                             outputs.append({
@@ -111,4 +111,4 @@ for agent in agents:
     queues[agent['name']] = queueModule.Queue()
     threading.Thread(target=handleThreadForAgent, args=(agent,)).start()
 
-queues['Upper case'].put("aaaaa")
+queues['Uppercase'].put("aaaaa")
