@@ -1,8 +1,19 @@
-- name: "Uppercase"
-  id: "asst_OswAEoT5NnteGEzNIP9UOa7S"
-  talksTo: ["Lowercase", "Random case"]
-- name: "Lowercase" 
-  id: "asst_utnfDavVtGWkjFD3BEqXGR2O"
-  talksTo: ["Random case"]
-- name: "Random case"
-  id: "asst_wFxS2rVmN9rjKDy7znaeNo3T"
+- name: "Boss" 
+  id: "asst_xWMYPN4yIJfrhD7S9AzLI0TO"
+  talksTo: ["USER", "Worker 1", "Worker 2", "Worker 3"]
+  functions: ["assignTask"]
+- name: "Worker 1"
+  id: "asst_akckTEWToGurRT3Zcp33Ahe8"
+  talksTo: ["Boss", "Worker 2", "Worker 3"]
+  channels: ["Worker"]
+  functions: ["resolveTask", "broadcast"]
+- name: "Worker 2"
+  id: "asst_3r8hSgGMrjU2TVp9wqlkzsfx"
+  talksTo: ["Boss", "Worker 1", "Worker 3"]
+  channels: ["Worker"]
+  functions: ["resolveTask", "broadcast"]
+- name: "Worker 3"
+  id: "asst_9u163B8jxCbJzGfBVFc2mMva"
+  talksTo: ["Boss", "Worker 1", "Worker 2"]
+  channels: ["Worker"]
+  functions: ["resolveTask", "broadcast"]
