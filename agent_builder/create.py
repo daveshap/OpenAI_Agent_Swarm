@@ -14,10 +14,10 @@ client = OpenAI(api_key=api_key)
 if not os.path.exists(agents_path) or not os.path.isdir(agents_path) or not os.listdir(agents_path):
     raise ValueError('The "agents" folder is missing, not a directory, or empty.')
 
-existing_assitstants = {}
+existing_assistants = {}
 
 for assistant in  client.beta.assistants.list(limit=100):
-    existing_assitstants[assistant.name] = assistant
+    existing_assistants[assistant.name] = assistant
 
 
 # Iterate over each folder inside the 'agents' folder
@@ -27,8 +27,8 @@ for agent_name in os.listdir(agents_path):
     existing_files = {}
     requested_files = []
     existing_agent = {}
-    if agent_name in existing_assitstants:
-        existing_agent = existing_assitstants[agent_name]    
+    if agent_name in existing_assistants:
+        existing_agent = existing_assistants[agent_name]    
         for file_id in existing_agent.file_ids:
             existing_file = client.files.retrieve(file_id=file_id)
             existing_files[existing_file.filename] = existing_file
