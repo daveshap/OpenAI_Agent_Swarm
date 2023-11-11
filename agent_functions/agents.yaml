@@ -1,7 +1,7 @@
-- name: "Upper case"
+- name: "Uppercase"
   id: "asst_OswAEoT5NnteGEzNIP9UOa7S"
-  talksTo: ["Lower case", "Random case"]
-- name: "Lower case"
+  talksTo: ["Lowercase", "Random case"]
+- name: "Lowercase" 
   id: "asst_utnfDavVtGWkjFD3BEqXGR2O"
   talksTo: ["Random case"]
 - name: "Random case"

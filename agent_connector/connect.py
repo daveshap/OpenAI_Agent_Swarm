@@ -89,4 +89,4 @@ for agent in agents:
     queues[agent['name']] = queueModule.Queue()
     threading.Thread(target=handleThreadForAgent, args=(agent,)).start()
 
-queues['Upper case'].put("aaaaa")
+queues['Uppercase'].put("aaaaa")
