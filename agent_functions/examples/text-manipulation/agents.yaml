@@ -1,0 +1,8 @@
+- name: "Uppercase"
+  id: "asst_OswAEoT5NnteGEzNIP9UOa7S"
+  talksTo: ["USER", "Lowercase", "Random case"]
+- name: "Lowercase" 
+  id: "asst_utnfDavVtGWkjFD3BEqXGR2O"
+  talksTo: ["Random case"]
+- name: "Random case"
+  id: "asst_wFxS2rVmN9rjKDy7znaeNo3T"
