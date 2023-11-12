@@ -1,4 +1,6 @@
 from tool_manager import ToolManager
+from pathlib import Path
+import os
 import json
 
 
@@ -32,7 +34,11 @@ class AssistantManager:
     def __init__(self, client):
         self.client = client
         self.assistant = None
-        with open("tool_maker/tool_creator_metadata.json", "r") as file:
+        Path(__file__).absolute().parent
+        tools_path = os.path.join(
+            Path(__file__).absolute().parent, "tool_creator_metadata.json"
+        )
+        with open(tools_path, "r") as file:
             self.assistant_package = json.load(file)
 
     def get_assistant(self):
