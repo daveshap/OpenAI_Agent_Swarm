@@ -193,7 +193,8 @@ class GithubAPIWrapper:
             List of numbers of pull requests.
         """
         pull_requests = self.repository.get_pulls(state=state)
-        return pull_requests
+        pull_requests_numbers = [pull_request.number for pull_request in pull_requests]
+        return pull_requests_numbers
 
     def create_pull_request(
         self,
