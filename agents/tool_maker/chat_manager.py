@@ -1,4 +1,5 @@
 import importlib
+from pathlib import Path
 from tool_manager import ToolManager
 import json
 import os
@@ -11,7 +12,11 @@ Thread = type(OpenAI().beta.threads.create())
 class ChatManager:
     def __init__(self, client: OpenAI):
         self.client = client
-        self.functions_path = "tool_maker/python_functions"
+        Path(__file__).absolute().parent
+        functions_path = os.path.join(
+            Path(__file__).absolute().parent, "python_functions"
+        )
+        self.functions_path = functions_path
 
     def create_thread_from_user_input(self):
         return self.client.beta.threads.create(
