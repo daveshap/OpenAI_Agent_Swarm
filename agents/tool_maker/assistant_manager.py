@@ -101,11 +101,9 @@ class AssistantManager:
 
 
 if __name__ == "__main__":
-    from openai import OpenAI
-    import os
-
-    apikey = os.getenv("OPENAI_API_KEY")
-    client = OpenAI(api_key=apikey)
+    from shared.openai_config import get_openai_client
+    client = get_openai_client()
+    
     assistant_manager = AssistantManager(client=client)
     assistant = assistant_manager.get_assistant()
     print(assistant)
