@@ -7,7 +7,11 @@ We have our first GPT Concierge. You can chat with this custom ChatGPT to figure
 - **HAAS Board Concierge:** [https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge](https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge)
 - **HAAS Assistant:** [https://chat.openai.com/g/g-lIAp9qowx-haas-assistant](https://chat.openai.com/g/g-lIAp9qowx-haas-assistant) (Similar function as above but markedly faster)
 
-We'll have a public Discord soon.
+## Public Discord
+
+The Autonomous AI Lab discord for the ACE Framework and HAAS Project is now open: https://discord.gg/mJKUYNm8qY
+
+> !!!! IMPORTANT NOTE: This repo is still the single source of truth! If it's not on this repo, it doesn't exist! Discord is merely for convenience. 
 
 # Project Principles
 
