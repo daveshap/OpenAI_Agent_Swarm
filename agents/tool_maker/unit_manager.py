@@ -27,13 +27,8 @@ class Unit:
 
 
 if __name__ == "__main__":
-    import os
-    from openai import OpenAI
-
-    api_key = os.getenv("OPENAI_API_KEY")
-    if api_key is None:
-        raise ValueError("The OPENAI_API_KEY environment variable is not set.")
-    client = OpenAI(api_key=api_key)
+    from shared.openai_config import get_openai_client
+    client = get_openai_client()
 
     unit = Unit(client=client)
     unit.chat()
