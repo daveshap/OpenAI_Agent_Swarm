@@ -1,18 +1,12 @@
 import yaml
-from openai import OpenAI
+from shared.openai_config import get_openai_client 
 import os
-import dotenv
-dotenv.load_dotenv()
 import queue as queueModule
 import time
 import threading
 
 agents_path = 'agents'
-api_key = os.getenv('OPENAI_API_KEY')
-if api_key is None:
-    raise ValueError('The OPENAI_API_KEY environment variable is not set.')
-
-client = OpenAI(api_key=api_key)
+client = get_openai_client()
 
 # Get the directory name of the current script
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -89,4 +83,4 @@ for agent in agents:
     queues[agent['name']] = queueModule.Queue()
     threading.Thread(target=handleThreadForAgent, args=(agent,)).start()
 
-queues['Upper case'].put("aaaaa")
+queues['Uppercase'].put("aaaaa")
