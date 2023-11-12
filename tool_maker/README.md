@@ -5,7 +5,7 @@ This preliminary experiment has to do with getting the OpenAI Assistant endpoint
 This function is as-yet undefined.
 
 # Version 1
-run the ```tool_maker_demo.py``` file.
+run the ```unit_manager.py``` file.
 
 You will be prompted to define a tool for creation. The assistant will then generate an OpenAI tool compatible JSON schema defining the name of the new function, it's description and the input argument schema. It will proceed to add this tool to the current assistant.
 
@@ -51,8 +51,3 @@ Note: Remember to prioritize user requirements and emphasize clear communication
 
 ## Flowchart
 ![[imgs/flow.png]]
-
-# Next Steps
-This process allows the assistant to request a function with some parameters, and allows for the addition of that function to the assistants tool, but no such function is ever actually made.
-
-A function object needs to be saved that a function_finder can look for to run the output parameters of the assistant, even the output in the example image above is a hallucination.
