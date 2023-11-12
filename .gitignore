@@ -1,2 +1,4 @@
 key_openai.txt
 /**/*/.env
+.env
+__pycache__

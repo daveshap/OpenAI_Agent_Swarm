@@ -1,9 +1,10 @@
 from openai import OpenAI
 import os
 import dotenv
+import json
 dotenv.load_dotenv()
 
-agents_path = 'agents'
+agents_path = os.getenv('AGENTS_PATH') or 'agents'
 api_key = os.getenv('OPENAI_API_KEY')
 if api_key is None:
     raise ValueError('The OPENAI_API_KEY environment variable is not set.')
@@ -36,6 +37,13 @@ for agent_name in os.listdir(agents_path):
                     file_object = client.files.create(file=file_data, purpose='assistants')
                     files.append({"name": filename, "id": file_object.id})
 
+        # Read custom tools from the 'tools.json' file
+        tools = []
+        tools_file_path = os.path.join(agent_folder, 'tools.json')
+        if os.path.isfile(tools_file_path):
+            with open(tools_file_path, 'r') as f:
+                tools = json.load(f)
+
         print(agent_name)
         print("")
         print(instructions)
@@ -47,7 +55,7 @@ for agent_name in os.listdir(agents_path):
             "name": agent_name,
             "instructions": instructions,
             "model": 'gpt-4-1106-preview',
-            "tools": [{'type': 'code_interpreter'}, {'type': 'retrieval'}]
+            "tools": [{'type': 'code_interpreter'}, {'type': 'retrieval'}] + tools
         }
         
         # Only include 'file_ids' if there are files
@@ -56,4 +64,5 @@ for agent_name in os.listdir(agents_path):
 
         # Create the assistant using the uploaded file IDs if files exist
         assistant = client.beta.assistants.create(**create_params)
+        print(assistant.id)
         print("***********************************************")

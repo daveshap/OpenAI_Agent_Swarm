@@ -1,0 +1,90 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "send_message",
+      "description": "Sends message to a chat",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "chat_id": {
+            "type": "string",
+            "description": "Id of the chat"
+          },
+          "message": {
+            "type": "string",
+            "description": "Your message"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "create_chat",
+      "description": "Creates chat with 2 or more members.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "agent_ids": {
+            "type": "array",
+            "description": "Array of agents' ids to be added to the chat",
+            "items": { "type": "string" }
+          },
+          "name": {
+            "type": "string",
+            "description": "Chat's name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Chat description, should include it's purpose"
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "add_chat_member",
+      "description": "Adds a new member to a chat.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Agent id to be added to the chat"
+          },
+          "chat_id": {
+            "type": "string",
+            "description": "Chat's id"
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "remove_chat_member",
+      "description": "Removes a member from a chat.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Agent id to be removed from the chat"
+          },
+          "chat_id": {
+            "type": "string",
+            "description": "Chat's id"
+          }
+        },
+        "required": []
+      }
+    }
+  }
+]
