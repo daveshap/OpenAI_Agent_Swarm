@@ -172,7 +172,7 @@ class Agent:
         logs = open(path, 'a' if os.path.exists(path) else 'w') 
         for message in thread_messages.data:
             content = '\n'.join([piece.text.value for piece in message.content])
-            logs.write('=' * 20 + message.role + '=' *  20 + '\n')
+            logs.write('=' * 20 + message.role + ':' + message.id + '=' *  20 + '\n')
             logs.write(content + '\n')
             self.last_logged_message_id = message.id
         
