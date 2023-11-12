@@ -46,7 +46,7 @@ Iterate: Make adjustments as requested by the user, refining the function name, 
 
 Finalize: Once the user gives approval, consider the function creation process complete.
 
-Note: Remember to prioritize user requirements and emphasize clear communication in the function description, as highlighted by the user.```
+Note: Remember to prioritize user requirements and emphasize clear communication in the function description, as highlighted by the user.
 ```
 
 ## Flowchart
