@@ -1,5 +1,6 @@
 from openai import OpenAI
 import importlib
+import os
 from tool_manager import ToolManager
 import json
 
@@ -10,6 +11,7 @@ Thread = type(OpenAI().beta.threads.create())
 class ChatManager:
     def __init__(self, client: OpenAI):
         self.client = client
+        self.functions_path = "tool_maker/python_functions"
 
     def create_thread_from_user_input(self):
         return self.client.beta.threads.create(
@@ -82,7 +84,9 @@ class ChatManager:
             )
             function_lines = functional_response.split("```python")[1].split("```")[0]
             name = tool["function"]["name"]
-            with open(f"tool_maker/python_functions/{name}.py", "w") as file:
+            if not os.path.exists(self.functions_path):
+                os.mkdir(self.functions_path)
+            with open(f"{self.functions_path}/{name}.py", "w") as file:
                 file.writelines(function_lines)
 
             response = {"tool_call_id": call.id, "output": "{success}"}
