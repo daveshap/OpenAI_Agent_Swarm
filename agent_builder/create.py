@@ -1,5 +1,6 @@
 from openai import OpenAI
 import os
+import json
 import dotenv
 dotenv.load_dotenv()
 
@@ -41,7 +42,14 @@ for agent_name in os.listdir(agents_path):
         if os.path.isfile(instructions_file_path):
             with open(instructions_file_path, 'r') as f:
                 instructions = f.read()
-        
+
+        # Read contents from the 'settings.json' file
+        settings = {}
+        settings_file_path = os.path.join(agent_folder, 'settings.json')
+        if os.path.isfile(settings_file_path):
+            with open(settings_file_path, 'r') as f:
+                settings = json.load(f)
+
         # Check for the 'files' subfolder and process its contents
         files = []
         files_folder = os.path.join(agent_folder, 'files')
@@ -54,9 +62,7 @@ for agent_name in os.listdir(agents_path):
                     with open(file_path, 'rb') as file_data:
                         # Upload each file to OpenAI
                         file_object = client.files.create(file=file_data, purpose='assistants')
-                        files.append({"name": filename, "id": file_object.id})
-
-        model = 'gpt-4-1106-preview'          
+                        files.append({"name": filename, "id": file_object.id})        
 
         print(agent_name)
         print("")
@@ -69,7 +75,7 @@ for agent_name in os.listdir(agents_path):
 
         if existing_agent:
             print(f"{agent_name} already exists... validating properties")
-            update_model = existing_agent.model != model
+            update_model = existing_agent.model != settings["model"]
             update_instructions = existing_agent.instructions != instructions
             #need to evaluate tools
             
@@ -79,7 +85,7 @@ for agent_name in os.listdir(agents_path):
             existing_files_set = set(existing_files.keys())
 
             if update_model:
-                update_params["model"] = model
+                update_params["model"] = settings["model"]
             if update_instructions:
                 update_params["instructions"] = instructions
             if files or requested_files_set != existing_files_set:
@@ -104,8 +110,8 @@ for agent_name in os.listdir(agents_path):
             create_params = {
                 "name": agent_name,
                 "instructions": instructions,
-                "model": model,
-                "tools": [{'type': 'code_interpreter'}]
+                "model": settings["model"],
+                "tools": settings["tools"]
             }
 
             # Only include 'file_ids' if there are files
