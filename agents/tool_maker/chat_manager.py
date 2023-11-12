@@ -1,8 +1,8 @@
-from openai import OpenAI
 import importlib
-import os
 from tool_manager import ToolManager
 import json
+import os
+from openai import OpenAI
 
 Assistant = type(OpenAI().beta.assistants.list().data[0])
 Thread = type(OpenAI().beta.threads.create())
