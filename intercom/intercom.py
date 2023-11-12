@@ -38,7 +38,7 @@ class InterComService:
         return 'Message was sent successfully. You will be notified when the agent responds.'
     
     def create_chat(self, members, name, description, admin_id):
-        if len(members) == 2:
+        if len(members) <= 2:
             return 'Chat must have more than 2 members. Use send_message function for one-to-one communication.'
         
         chat = Chat(members, name, description, admin_id)
