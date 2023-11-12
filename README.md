@@ -7,7 +7,31 @@ We have our first GPT Concierge. You can chat with this custom ChatGPT to figure
 - **HAAS Board Concierge:** [https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge](https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge)
 - **HAAS Assistant:** [https://chat.openai.com/g/g-lIAp9qowx-haas-assistant](https://chat.openai.com/g/g-lIAp9qowx-haas-assistant) (Similar function as above but markedly faster)
 
-## Overview
+## Public Discord
+
+The Autonomous AI Lab discord for the ACE Framework and HAAS Project is now open: https://discord.gg/mJKUYNm8qY
+
+> !!!! IMPORTANT NOTE: This repo is still the single source of truth! If it's not on this repo, it doesn't exist! Discord is merely for convenience. 
+
+# Project Principles
+
+## Move Fast, Break Stuff
+
+This is first and foremost a high velocity hacking group. 
+
+## Cutting Edge Only
+
+Exclusively use cutting edge stuff, like OpenAI's latest Agents endpoint. For exclusively Open Source, go check out the ACE Framework: https://github.com/daveshap/ACE_Framework
+
+## Full Autonomy
+
+Fully autonomous swarms are the goal. That means a human does not need to be in the loop telling it what to do, supervising, or anything. Characteristics of a fully autonomous swarm:
+
+1. **Principle or Mission Driven:** Once instantiated, the swarm pursues its mission or goals without supervision. It may self-direct based on principles such as the heuristic imperatives. This is the "self-directed" maxim.
+2. **Self-Correcting:** The swarm must detect and correct technical, strategic, epistemic, and other errors and then correct them.
+3. **Self-Improving:** Eventually, the swarm should enhance its own fundamental capabilities over time. 
+
+# Overview
 
 The Hierarchical Autonomous Agent Swarm (HAAS) is a groundbreaking initiative that leverages OpenAI's latest advancements in agent-based APIs to create a self-organizing and ethically governed ecosystem of AI agents. Drawing inspiration from the ACE Framework, HAAS introduces a novel approach to AI governance and operation, where a hierarchy of specialized agents, each with distinct roles and capabilities, collaborate to solve complex problems and perform a wide array of tasks.
 

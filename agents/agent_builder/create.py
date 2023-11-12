@@ -1,15 +1,9 @@
-from openai import OpenAI
 import os
 import json
-import dotenv
-dotenv.load_dotenv()
+from shared.openai_config import get_openai_client
 
 agents_path = 'agents'
-api_key = os.getenv('OPENAI_API_KEY')
-if api_key is None:
-    raise ValueError('The OPENAI_API_KEY environment variable is not set.')
-
-client = OpenAI(api_key=api_key)
+client = get_openai_client()
 
 # Check if the 'agents' folder is empty or doesn't exist
 if not os.path.exists(agents_path) or not os.path.isdir(agents_path) or not os.listdir(agents_path):
