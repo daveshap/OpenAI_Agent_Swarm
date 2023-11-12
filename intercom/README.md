@@ -1,4 +1,4 @@
-# InterComService for direct and group communication
+# IntercomService for direct and group communication
 
 This package implements a way for one-to-one and many-to-many communication between OpenAI assistants through function calling.
 The core idea is that agents should decide on their own when to communicate and with whom.
@@ -16,10 +16,10 @@ To make this possible following things needs be done:
 The flow of the communicating assistatns is following:
 
 1. Assistants have chat functions
-2. Agent class waits for function calls from assistant and uses InterComService to execute chat tools
-3. InterComService gets Agent class instance from Agent registry and sends a message
+2. Agent class waits for function calls from assistant and uses IntercomService to execute chat tools
+3. IntercomService gets Agent class instance from Agent registry and sends a message
 
-For more details on how Agent and InterComService work check Implementation details sections
+For more details on how Agent and IntercomService work check Implementation details sections
 
 ## Preparing OpenAI assistant for communication
 
@@ -63,8 +63,8 @@ Once assistants are configured for communication we need a middleware that runs 
 Three main parts of this package:
 
 1. Agent registry - keeps links to all agent so they can be accessed later
-2. Agent - handles runs, processess function calling, sends messages to assistant. Uses InterComService to send messages to other agents
-3. InterComService - routes messages between agents, uses Agent registry to access agents
+2. Agent - handles runs, processess function calling, sends messages to assistant. Uses IntercomService to send messages to other agents
+3. IntercomService - routes messages between agents, uses Agent registry to access agents
 
 ## Agent registry
 
@@ -95,7 +95,7 @@ One thread approach on the other hand is pretty simple and stupid (KISS): one th
 
 **Function calling**
 After a run has started agent will check its status every second. If run is in `requires_action` agent will parse functions params (assistant can do multiple function calls in one go) to pass them along with function names to `process_function_call` method.
-This method will check function name and execute appropriate tools (InterComService).
+This method will check function name and execute appropriate tools (IntercomService).
 Since the goal of this mini-project is to implement communication tools, the only functions assistant can execute are chat functions. Hovewer, agent implemented in the way that it's not hard to add more tools to it
 
 **Thread message template**
@@ -108,9 +108,9 @@ Message:
 {message}
 ```
 
-## InterComService
+## IntercomService
 
-Purpose of InterComService is to handle everything related to communication between agents
+Purpose of IntercomService is to handle everything related to communication between agents
 
 The most important methods:
 
@@ -120,7 +120,7 @@ The most important methods:
 
 **Directed communication (between two agents)**
 When one agent wants to send a message to another, `receiver_id` passed to the `intercom.send_message` method should be an id of the receiving agent.
-InterComService will use the agent registry to retreive Agent class instance responsible for receiving assistant. Then it will invoke a `send_message` on the the agent to pass the message
+IntercomService will use the agent registry to retreive Agent class instance responsible for receiving assistant. Then it will invoke a `send_message` on the the agent to pass the message
 
 **Group chat communication**
 To be able to communicate in group an agent needs to create a chat first.

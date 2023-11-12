@@ -10,7 +10,7 @@ message_content:
 {message}
 ===End of Incoming message from {chat_name}==='''
 
-class InterComService:
+class IntercomService:
     def __init__(self):
         self.chats = {}
 
@@ -115,4 +115,4 @@ class Chat:
         self.members.remove(member_id)
 
 
-intercom = InterComService()
+intercom = IntercomService()
