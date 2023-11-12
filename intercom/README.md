@@ -165,13 +165,13 @@ Now you need to create assistants using agent builder:
 
 1. Create `.env` in the root with following values
    1. OPENAI_API_KEY=
-   2. AGENTS_PATH=intercom/agents_1 for first demo or intercom/agents_2 for second
+   2. AGENTS_PATH=intercom/demo_data/agents_1 for first demo or intercom/demo_data/agents_2 for second
 2. Execute from the root: `python3 -m agents.agent_builder.create`
 3. Obtain assistant ids either from openai playground
 4. Go to the demo file (`intercom/demo_1.py` or `intercom/demo_2.py`)
 5. Set your assistant ids
 6. Create `.env` file in the `intercom` folder with following value:
-   1. THREAD_LOGS_PATH=intercom/logs_3 - path to a folder where threads will be logged
+   1. THREAD_LOGS_PATH=intercom/demo_data/logs_3 - path to a folder where threads will be logged
 
 ## First demo
 
@@ -233,5 +233,12 @@ Run demo: `python3 -m intercom.demo_2`
 # Some interesting findings
 
 OpenAI assistants believe that the user is the real human being (which is expected) and the one that needs assitance. In this project the user is instance of Agent class that only processes function calls and passes messages from outside. It led to sitations when an assistant tried to communicate with user (ask for more info), which is why I've added "Relationship with user" section in the instructions. It explains that assistant shoud not try to communicate with user and it can only talk to other agents using chat functions. I've also explained that the assistant is part of HAAS and it can only communicate with other agents.
+
+OpenAI assistants are not aware of function calling (?). It's related to the previous finding and I'm still not sure about that. Here's what happened:
+Assistants kept trying to talk to user (which is not a real human). I've added an instruction telling user is not real.
+Appart from that I've also said that user can only process function calls and assistant should use chat functions to talk to other agents.
+After that they stopped talking to user but they started throwing out json with similar structure to [required_action field](https://platform.openai.com/docs/api-reference/runs/object#runs/object-required_action) instead of doing function calling
+It seems like when I mentioned chat functions and the fact that user processes function calling, assistant inferred that it needs to include json with functions it wants to call in their response, so that the user could process it.
+The only explanation I could come up with is that assistants don't know about function calling. Fortunately, It doesn't happen too often.
 
 In the second demo Founder creates a group chat with Domain Expert and Marketing Expert and sends a message to it. After receiving the message, Domain Expert decides to send a message directly (not in group chat) to Marketin Expert notifying it about new group chat asking it to share a feedback in it. It's a waste of tokens since Marketing Expert also received message from Founder (they're in the group chat), but I found it interesting how assistants are naturally using chat functions to communicate with each other

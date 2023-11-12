@@ -74,11 +74,11 @@ class Agent:
 
         if run.status == 'failed':
             self.current_run_id = None
-            raise Exception('Run failed. Run id: {}'.format(run.id))
+            raise Exception('Run failed. Run id: {}, Thread Id: {}'.format(run.id, self.thread.id))
         
         if run.status == 'expired':
             self.current_run_id = None
-            raise Exception('Run expired. Run id: {}'.format(run.id))
+            raise Exception('Run expired. Run id: {}, Thread Id: {}'.format(run.id, self.thread.id))
         
         if run.status == 'requires_action':
             self.log('Run requires action')

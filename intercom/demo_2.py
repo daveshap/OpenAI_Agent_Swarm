@@ -5,25 +5,25 @@ from .agent.agent import Agent
 
 assistants = [
     {
-        'id': 'asst_iZQnpwFSFMlrPOq2lRAVNYKM',
+        'id': 'asst_uZgjXx1rUvrJOmt1Lf3Dgliq',
         'name': 'Marketing Expert',
         'description': 'Knows everything about marketing.',
         'begin': False
     },
     {
-        'id': 'asst_wjcLG18XQmdlwQbfhdk5uyky',
+        'id': 'asst_zpn3XAb6pVY30D1zvEvkeRWC',
         'name': 'Network Engineer',
         'description': 'Knows everything about networks',
         'begin': False
     },
     {
-        'id': 'asst_YcmuoR4zsnw3yQWisC3ol0SD',
+        'id': 'asst_7GTjrZGo0il4piEngYWUdSzG',
         'name': 'Domain Expert',
         'description': 'Owns design studio. Knows everything design studio needs. Potential client of the Founder\'s startup',
         'begin': False
     },
     {
-        'id': 'asst_mzTkBtFbPKdoVfoQmTrOVp2j',
+        'id': 'asst_4Rgz8esZATBxmDaAqqMJdZ98',
         'name': 'Founder',
         'description': 'Founder of the new AI company that is taking over the world',
         'begin': True
