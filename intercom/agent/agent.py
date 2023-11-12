@@ -32,7 +32,10 @@ class Agent:
         threading.Thread(target=self.run).start()
 
         if begin:
-            self.send_message('Begin')
+            self.begin()
+
+    def begin(self):
+        self.send_message('Begin')
 
     def send_message(self, message):
         self.log('Adding message to thread')
