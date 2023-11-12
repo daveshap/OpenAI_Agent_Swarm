@@ -1,8 +1,9 @@
 import os
 import json
 from shared.openai_config import get_openai_client
+from shared.settings import settings
 
-agents_path = 'agents'
+agents_path = settings.AGENTS_PATH or 'agents'
 client = get_openai_client()
 
 # Check if the 'agents' folder is empty or doesn't exist
@@ -100,7 +101,6 @@ for agent_name in os.listdir(agents_path):
             else:
               print(f"{agent_name} is up to date")         
         else:        
-
             create_params = {
                 "name": agent_name,
                 "instructions": instructions,

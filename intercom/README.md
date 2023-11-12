@@ -142,7 +142,7 @@ I've prepared two demos: one for one-to-one communication, another for group cha
 Both demos are simulating following situation:
 Founder of the new AI startup needs to figure out marketing strategy.
 
-You can check logs_1 (first demo) and logs_2 (second demo) for threads from demos that executed locally.
+You can check logs_1 (first demo) and logs_2 (second demo) for threads from demos that I've executed locally.
 
 ## Prerequisites
 
@@ -154,11 +154,12 @@ Now you need to create assistants using agent builder:
 1. Create `.env` in the root with following values
    1. OPENAI_API_KEY=
    2. AGENTS_PATH=intercom/agents_1 for first demo or intercom/agents_2 for second
-   3. THREAD_LOGS_PATH=logs_1 - path to a folder where threads will be logged. Relative to the `intercom` folder
-2. Execut: `python3 agent_builder/create.py`
-3. Obtain assistant ids either from openai playground or agent builder logs
+2. Execute from the root: `python3 -m agents.agent_builder.create`
+3. Obtain assistant ids either from openai playground
 4. Go to the demo file (`intercom/demo_1.py` or `intercom/demo_2.py`)
 5. Set your assistant ids
+6. Create `.env` file in the `intercom` folder with following value:
+   1. THREAD_LOGS_PATH=intercom/logs_3 - path to a folder where threads will be logged
 
 ## First demo
 
@@ -187,10 +188,7 @@ You are a network engineer. Your mission is to help others with building robust 
 
 Network Engineer is added to test agents ability to choose when to _not_ communicate. So in good scenario Founder won't talk to Network Engineer since it won't help with building marketing strategy.
 
-Run demo:
-
-1. Change directory to `intercom`: `cd intercom`
-2. Run demo: `python3 demo_1.py`
+Run demo from the root: `python3 -m intercom.demo_1`
 
 As new messages added to threads logs files will be updated.
 Keep in mind that unlike AutoGPT agents in this project do not use self-prompting. They will only run if something outside triggers them (message from another agent)
@@ -208,6 +206,8 @@ Your buisness could benefit a lot from latest AI development: autonomuous AI age
 ```
 
 Goal of this demo is to see wheather Founder will create a group chat with Marketing Expert and Domain Expert and communicate on marketing strategy.
+
+Run demo: `python3 -m intercom.demo_2`
 
 # Potential improvements
 

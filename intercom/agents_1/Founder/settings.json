@@ -1,0 +1,27 @@
+{
+  "model": "gpt-4-1106-preview",
+  "description": "",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "send_message",
+        "description": "Sends message to a chat",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "chat_id": {
+              "type": "string",
+              "description": "Id of the chat"
+            },
+            "message": {
+              "type": "string",
+              "description": "Your message"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}

@@ -1,16 +1,13 @@
-from openai import OpenAI
+# from openai import OpenAI
 import os
 import time
 import json
 import threading
-from intercom import intercom
+from ..intercom import intercom
+from shared.openai_config import get_openai_client
 
 thread_logs_path = os.getenv('THREAD_LOGS_PATH') or 'logs'
-api_key = os.getenv('OPENAI_API_KEY')
-if api_key is None:
-    raise ValueError('The OPENAI_API_KEY environment variable is not set.')
-
-client = OpenAI(api_key=api_key)
+client = get_openai_client()
 
 message_template = '''Chat list:
 {chat_list}
@@ -167,6 +164,9 @@ class Agent:
             order='asc',
             limit=100
         )
+
+        if not os.path.exists(thread_logs_path):
+            os.makedirs(thread_logs_path)
 
         path = '{}/{}'.format(thread_logs_path, self.name)
         logs = open(path, 'a' if os.path.exists(path) else 'w') 

@@ -1,29 +1,29 @@
 import dotenv
 dotenv.load_dotenv()
-from agent_registry import registry
-from agent.agent import Agent
+from .agent_registry import registry
+from .agent.agent import Agent
 
 assistants = [
     {
-        'id': 'asst_4XixOcWw4Ut9Kz7Pv98dIxo6',
+        'id': 'asst_iZQnpwFSFMlrPOq2lRAVNYKM',
         'name': 'Marketing Expert',
         'description': 'Knows everything about marketing.',
         'begin': False
     },
     {
-        'id': 'asst_dH1T9lUUD2aef21aglI9iVcw',
+        'id': 'asst_wjcLG18XQmdlwQbfhdk5uyky',
         'name': 'Network Engineer',
         'description': 'Knows everything about networks',
         'begin': False
     },
     {
-        'id': 'asst_KEtj0v4T2QHYevcIKTeAtrRn',
+        'id': 'asst_YcmuoR4zsnw3yQWisC3ol0SD',
         'name': 'Domain Expert',
         'description': 'Owns design studio. Knows everything design studio needs. Potential client of the Founder\'s startup',
         'begin': False
     },
     {
-        'id': 'asst_cLIyeNLWz6q1hx1HZDRn9K86',
+        'id': 'asst_mzTkBtFbPKdoVfoQmTrOVp2j',
         'name': 'Founder',
         'description': 'Founder of the new AI company that is taking over the world',
         'begin': True

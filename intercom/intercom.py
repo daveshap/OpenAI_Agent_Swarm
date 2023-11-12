@@ -1,5 +1,5 @@
 import uuid
-import agent_registry.registry as registry
+import intercom.agent_registry.registry as registry
 
 message_template = '''===Incoming message from {chat_name}===
 chat_id: {chat_id}
