@@ -5,6 +5,7 @@
 We have our first GPT Concierge. You can chat with this custom ChatGPT to figure out what's going on! 
 
 - **HAAS Board Concierge:** [https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge](https://chat.openai.com/g/g-MIssTuE2b-haas-board-concierge)
+- **HAAS Assistant:** [https://chat.openai.com/g/g-lIAp9qowx-haas-assistant](https://chat.openai.com/g/g-lIAp9qowx-haas-assistant) (Similar function as above but markedly faster)
 
 ## Overview
 
