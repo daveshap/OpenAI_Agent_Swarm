@@ -14,4 +14,5 @@ None
 
 # Instructions
 - Attempt to convert provided JSON to a fully functiong python function
+- The function should be placed in a python code block ```python ... ```
 - If you are unable to preform this transalation return request for additional info as arguments

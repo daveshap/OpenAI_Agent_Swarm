@@ -44,6 +44,17 @@ class ChatManager:
                 "output": f"{{{type(error)}:{error.args}}}",
             }
         return response
+    
+    def get_existing_functions(self):
+        print("Get Built Functions")
+        results = []
+        if os.path.exists(self.functions_path):
+            for filename in os.listdir(self.functions_path):
+                if filename.endswith(".json"):
+                    file_path = os.path.join(self.functions_path,filename)
+                    with open(file_path, "r") as file:
+                        results.append(file)
+        return results
 
     def handle_fucntion_request(
         self,
@@ -57,13 +68,14 @@ class ChatManager:
             # Create Function Tool
             schema = ToolManager.schema_from_response(call.function.arguments)
             tool = ToolManager.tool_from_function_schema(schema)
+            filtered_interface_assistant_tools = list(filter(lambda tool: tool.type == "function" ,interface_assistant.tools))
             if tool["function"]["name"] in [
                 previous_tool.function.name
-                for previous_tool in interface_assistant.tools
+                for previous_tool in filtered_interface_assistant_tools
             ]:
                 tools = [
                     previous_tool
-                    for previous_tool in interface_assistant.tools
+                    for previous_tool in filtered_interface_assistant_tools
                     if previous_tool.function.name != tool["function"]["name"]
                 ]
                 interface_assistant = self.client.beta.assistants.update(
@@ -95,6 +107,8 @@ class ChatManager:
                 os.mkdir(self.functions_path)
             with open(f"{self.functions_path}/{name}.py", "w") as file:
                 file.writelines(function_lines)
+            with open(f"{self.functions_path}/{name}.json", "w") as file:
+                file.writelines(tool)
 
             response = {"tool_call_id": call.id, "output": "{success}"}
 
@@ -113,6 +127,28 @@ class ChatManager:
             run = self.client.beta.threads.runs.retrieve(
                 run_id=run.id, thread_id=thread.id
             )
+            if run.status == "requires_action":
+                responses = []
+                for call in run.required_action.submit_tool_outputs.tool_calls:
+                    print(f"calling: {call.function.name}")
+                    if call.function.name == "get_existing_functions":
+                        available_functions = self.get_existing_functions()
+                        response = {"tool_call_id": call.id, "output": f"result:{available_functions}"}
+                        responses.append(response)
+                    else:
+                        response = {"tool_call_id": call.id, "output": f"result:None"}
+                        responses.append(response)
+                try:
+                    run = self.client.beta.threads.runs.submit_tool_outputs(
+                        run_id=run.id,
+                        thread_id=thread.id,
+                        tool_outputs=responses,
+                    )
+                except:
+                    print(run.status)
+                    print(run)
+                    print(call)
+                    print(responses)
 
         response = (
             self.client.beta.threads.messages.list(thread_id=thread.id)

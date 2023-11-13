@@ -1,9 +1,12 @@
 import os
 import json
+from pathlib import Path
 from shared.openai_config import get_openai_client
 
 def create_assistants():
-    agents_path = 'agents'
+    agents_path = os.path.join(
+            Path(__file__).absolute().parent, "agents"
+    )
     client = get_openai_client()
 
     # Check if the 'agents' folder is empty or doesn't exist

@@ -1,7 +1,17 @@
 {
-    "model": "gpt-4-1106-preview",
-    "description": "Foundation Swarm Builder",
-    "tools": [{ "type": "code_interpreter" }],
-    "metadata": {}
-  }
-  
+  "model": "gpt-4-1106-preview",
+  "description": "Foundation Swarm Builder",
+  "tools": [
+    { "type": "code_interpreter" },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_existing_functions",
+        "description": "Provides functions that have already been built",
+        "parameters": { "type": "object", "properties": {} },
+        "required": []
+      }
+    }
+  ],
+  "metadata": {}
+}
