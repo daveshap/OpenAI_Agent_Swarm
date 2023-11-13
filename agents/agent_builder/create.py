@@ -73,7 +73,8 @@ def create_assistants():
                 update_model = existing_agent.model != settings["model"]
                 update_description = existing_agent.description != settings["description"]
                 update_instructions = existing_agent.instructions != instructions
-                existing_agent_tools = list(filter(lambda item: item.type ==  "function", existing_agent.tools))
+                existing_agent_tools_raw = list(filter(lambda item: item.type ==  "function", existing_agent.tools))
+                existing_agent_tools = [ ({ 'type': item.type, 'function': { 'name': item.function.name, 'description': item.function.description, 'parameters': item.function.parameters } }) for item in existing_agent_tools_raw ]
                 setting_agent_tools = list(filter(lambda item: item["type"] ==  "function", settings["tools"]))
                 update_tools = existing_agent_tools != setting_agent_tools
 
