@@ -1,13 +1,13 @@
 {
   "model": "gpt-4-1106-preview",
-  "description": "Foundation Swarm Builder",
+  "description": "Function writer",
   "tools": [
     { "type": "code_interpreter" },
     {
       "type": "function",
       "function": {
         "name": "get_existing_functions",
-        "description": "Provides functions that have already been built",
+        "description": "List available functions that can be called",
         "parameters": { "type": "object", "properties": {} },
         "required": []
       }

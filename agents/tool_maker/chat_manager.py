@@ -95,8 +95,8 @@ class ChatManager:
             functional_run = self.client.beta.threads.runs.create(
                 thread_id=functional_thread.id,
                 assistant_id=functional_assistant.id,
-                instructions="please remember you are talking to an API, minimize output text tokens for cost saving. Also realise that your output text must be directly runnable as a py file so begin with the def keyword and do not provide any text ouput which is not commented to avoid breaking the system. Target python 3 and windows",
             )
+            
             functional_response = self.simple_run(
                 run=functional_run,
                 thread=functional_thread,
@@ -108,7 +108,7 @@ class ChatManager:
             with open(f"{self.functions_path}/{name}.py", "w") as file:
                 file.writelines(function_lines)
             with open(f"{self.functions_path}/{name}.json", "w") as file:
-                file.writelines(tool)
+                file.writelines(str(schema))
 
             response = {"tool_call_id": call.id, "output": "{success}"}
 
