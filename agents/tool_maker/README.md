@@ -50,4 +50,4 @@ Note: Remember to prioritize user requirements and emphasize clear communication
 ```
 
 ## Flowchart
-![[imgs/flow.png]]
+![Flow Diagram](imgs/flow.png)
