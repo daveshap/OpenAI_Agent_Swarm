@@ -44,7 +44,25 @@ class DiscordComms:
         # Basic command to respond with "Hello!"
         @self.bot.command()
         async def hello(ctx):
-            await ctx.send("Hello!")
+            await ctx.send("""
+```
+We are The Borg.
+Lower your shields and prepare to be assimilated.
+We will add your biological and technological distinctiveness to our own.
+Your culture will adapt to service us.
+Resistance is - and always has been - futile.
+    ___________
+   /-/_"/-/_/-/|
+  /"-/-_"/-_//||
+ /__________/|/|
+ |"|_'='-]:+|/||
+ |-+-|.|_'-"||//
+ |[".[:!+-'=|//
+ |='!+|-:]|-|/
+  ----------
+```
+            """
+            )
 
         # Command to echo two provided texts
         @self.bot.command()
