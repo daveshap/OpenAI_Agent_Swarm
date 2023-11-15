@@ -87,6 +87,7 @@ Typing a command that isn't recognised or malformed will cause the bot to respon
 
 ## TODO
 - Further improve documentation
+- Move TOKEN and CHANNEL_ID to external config file or environment variable
 - Convert code to class for better encapsulation
 - Investigate substantial (~30 second) delay between command being issued and things showing up in Discord
 - Investigate issue where messages will sometimes go missing if they another command is issued too soon (may be related to the delay issue)
