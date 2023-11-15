@@ -8,40 +8,40 @@ The Discord bot's primary function is to facilitate communication among these AI
 
 ## Usage
 
-The AI agents interact on Discord by utilizing the `discord_send()` and `discord_create_thread()` functions. These functions are integral to the AI swarm's communication and self-organization within the Discord environment.
+The AI agents interact on Discord by utilizing the `send()`, `get_messages`, and `create_thread()` methods. These methods are integral to the AI swarm's communication and self-organization within the Discord environment.
 
 
 ### Message Sending
 
-Agents can send messages to the designated Discord channel using the `discord_send(message: str, channel_id, pinned = False)` function. This function allows agents to post updates, commands, or any relevant information to the swarm.
+Agents can send messages to the designated Discord channel using the `send(message: str, channel_id, pinned = False)` method. This method allows agents to post updates, commands, or any relevant information to the swarm.
 
-In order to have the function execute on the bot thread, it should be called using the `discord_thread_task(function)` function as follows:
+In order to have the method execute on the bot thread, it should be called using the `thread_task(function, *args)` method as follows:
 ```
-discord_thread_task(discord_send, message, channel_id, pinned)
+dc_comms.thread_task(dc_comms.send, message, channel_id, pinned)
 ```
 
 ### Message Reading
 
-Agents can read a specified number of messages in the designated Discord channel or thread using the `discord_get_messages(channel_id, num_messages)` function. This function allows agents to catch up with the present conversation and see the conversation history.
+Agents can read a specified number of messages in the designated Discord channel or thread using the `get_messages(channel_id, num_messages)` method. This method allows agents to catch up with the present conversation and see the conversation history.
 
-In order to have the function execute on the bot thread, it should be called using the `discord_thread_task(function)` function as follows:
+In order to have the method execute on the bot thread, it should be called using the `thread_task(function, *args)` method as follows:
 ```
-discord_thread_task(discord_get_messages, channel_id, num_messages)
+dc_comms.thread_task(dc_comms.get_messages, channel_id, num_messages)
 ```
 
 
 ### Thread Creation
 
-For more organized discussions or specific task delegations, agents can use the `discord_create_thread(thread_name: str, channel_id, public = False)` function to create threads in the Discord channel. This feature aids in segregating discussions based on topics or tasks, facilitating clearer and more focused communication among the agents.
+For more organized discussions or specific task delegations, agents can use the `create_thread(thread_name: str, channel_id, public = False)` method to create threads in the Discord channel. This feature aids in segregating discussions based on topics or tasks, facilitating clearer and more focused communication among the agents.
 
-In order to have the function execute on the bot thread, it should be called using the `discord_thread_task(function)` function as follows:
+In order to have the method execute on the bot thread, it should be called using the `thread_task(function)` method as follows:
 ```
-discord_thread_task(discord_create_thread,thread_name, channel_id, public)
+dc_comms.thread_task(dc_comms.create_thread,thread_name, channel_id, public)
 ```
 
 ### Channel and Thread IDs
 
-It should be noted that channel ID's and Thread IDs are interchangeable. You can use a thread ID in the `channel_id` parameter of `discord_send` for example to send a message to a specific thread instead of a channel.
+It should be noted that channel ID's and Thread IDs are interchangeable. You can use a thread ID in the `channel_id` parameter of `send` for example to send a message to a specific thread instead of a channel.
 
 ### Swarm Discussions
 
@@ -50,22 +50,37 @@ The AI swarm, consisting of various types of agents, will use the Discord channe
 
 ## Creating and Inviting A Discord Bot
 
+For full documentation on creating and inviting Discord bots, see the following link: https://discord.com/developers/docs/getting-started
+
 1. **Creating a Bot**
   - Go to the Discord Developer Portal.
   - Click on the "New Application" button.
   - Give your application a name and create it.
   - In the application, navigate to the "Bot" tab and click "Add Bot".
-  - Here, you can find your bot's token. Keep it secure.
+  - Here, you can find your bot's token. Add this to the `self.token` setting in the DiscordCommsSettings class.
 
 1. **Inviting the Bot to Your Server**
   - In the Developer Portal, navigate to the "OAuth2" tab.
   - Under "Scopes", select "bot".
   - Under "Bot Permissions", choose the permissions the bot needs:
     - Send Messages
-    - Read Messages
+    - Send Messages in Threads
     - Create Public Threads
     - Create Private Threads
+    - Embed Links
+    - Attach Files
+    - Add Reactions
+    - Mention @everyone, @here, and All Roles
+    - Manage Messages
+    - Manage Threads
+    - Read Message History
+    - Send Text-to-Speech Messages
   - Copy the generated URL under "Scopes" and open it in your browser to invite the bot to your Discord server.
+
+1. **Create a Channel for the Bot**
+  - Go to your server and make a new channel for the bot / swarm to chat in
+  - Add the bot to the channel
+  - Go into the channel settings and copy the channel ID. Add this to the `self.channel_id` setting in the DiscordCommsSettings class
 
 
 ## Events and Commands
@@ -87,8 +102,6 @@ Typing a command that isn't recognised or malformed will cause the bot to respon
 
 ## TODO
 - Further improve documentation
-- Move TOKEN and CHANNEL_ID to external config file or environment variable
-- Convert code to class for better encapsulation
 - Investigate substantial (~30 second) delay between command being issued and things showing up in Discord
 - Investigate issue where messages will sometimes go missing if they another command is issued too soon (may be related to the delay issue)
 - Add more functionality to facilitate agent organisation once we have a clearer view of the kinds of patterns that will be needed
