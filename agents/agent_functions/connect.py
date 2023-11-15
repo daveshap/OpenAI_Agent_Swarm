@@ -27,6 +27,8 @@ with open(yaml_file_path, 'r') as stream:
 queues = {}
 channels = []
 
+lock = threading.Lock()
+
 def processSendMessage(agent, outputs, action, arguments):
     if ('talksTo' in agent) and (arguments['recipient'] in agent['talksTo']):
         if arguments['recipient'] == "USER":
@@ -116,6 +118,8 @@ def handleThreadForAgent(agent):
             if waitingForMessages:
                 message = queue.get(block=True)
                 if message is not None:
+                    lock.acquire()
+                    print(f"[{agent['name']}] ACQUIRES LOCK")
                     waitingForMessages = False
                     # print(f"[{agent['name']}] Recieved: {message}")
                     messages.append(message)
@@ -150,6 +154,9 @@ def handleThreadForAgent(agent):
                         messages.append(retrievedMessage)
                         print(f"[{agent['name']}] Message: {retrievedMessage}")
                         i+=1
+                    if lock.locked():
+                        lock.release()
+                    print(f"[{agent['name']}] RELEASES LOCK")
                 elif run.status == 'requires_action':
                     outputs = []
                     submitOutput=True
@@ -178,6 +185,10 @@ def handleThreadForAgent(agent):
                                 run_id=run.id,
                                 tool_outputs=outputs
                             )
+                        if lock.locked():
+                            lock.release()
+                        print(f"[{agent['name']}] RELEASES LOCK")
+                        
         time.sleep(1)
 
 def buildChannel(agent):
