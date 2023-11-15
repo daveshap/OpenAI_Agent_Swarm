@@ -87,7 +87,7 @@ For full documentation on creating and inviting Discord bots, see the following 
 Some example events and commands are included to demonstrate how commands from the Discord channel are recieved in the bot.
 
 ### !hello
-Typing `!hello` in the Discord channel will trigger the bot to respond with `Hello!`
+Typing `!hello` in the Discord channel will trigger the bot to respond with `Hello!`... or perhaps something else!
 
 ### !hello2
 Typing `!hello2 "Text 1" "Text 2"` will trigger the bot to respond with `You said: "Text 1" and "Text 2"`
