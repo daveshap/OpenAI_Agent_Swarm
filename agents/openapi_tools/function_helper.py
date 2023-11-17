@@ -1,6 +1,6 @@
 import jsonref
 from bs4 import BeautifulSoup
-import yaml  # Make sure to install pyyaml
+import yaml
 import logging
 from copy import deepcopy
 
@@ -127,12 +127,3 @@ class OpenApiFunctionHelper:
 
         return schema
 
-if __name__ == "__main__":
-    yaml_path = "oas/openapi.yaml"
-    json_path = "oas/financesV0.json"
-    with open(yaml_path, "r") as file:
-        functions = OpenApiFunctionHelper(file.read()).assistant_functions
-        print(functions)
-    with open(json_path, "r") as file:
-        functions = OpenApiFunctionHelper(file.read()).assistant_functions
-        print(functions)
