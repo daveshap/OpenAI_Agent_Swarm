@@ -1,20 +1,16 @@
 - name: "Boss" 
-  id: "asst_xWMYPN4yIJfrhD7S9AzLI0TO"
   talksTo: ["USER", "Worker 1", "Worker 2", "Worker 3"]
   functions: ["assignTask"]
   innitMessage: "Explain how clouds are formed in 100 words or less"
 - name: "Worker 1"
-  id: "asst_akckTEWToGurRT3Zcp33Ahe8"
   talksTo: ["Boss", "Worker 2", "Worker 3"]
   channels: ["Worker"]
   functions: ["resolveTask", "broadcast"]
 - name: "Worker 2"
-  id: "asst_3r8hSgGMrjU2TVp9wqlkzsfx"
   talksTo: ["Boss", "Worker 1", "Worker 3"]
   channels: ["Worker"]
   functions: ["resolveTask", "broadcast"]
 - name: "Worker 3"
-  id: "asst_9u163B8jxCbJzGfBVFc2mMva"
   talksTo: ["Boss", "Worker 1", "Worker 2"]
   channels: ["Worker"]
   functions: ["resolveTask", "broadcast"]

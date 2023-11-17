@@ -20,32 +20,49 @@ if api_key is None:
 client = OpenAI(api_key=api_key)
 
 # Setup argument parser
-parser = argparse.ArgumentParser(description='Load agents configuration from a YAML file.')
-parser.add_argument('agentsYAML', nargs='?', help='Path to the agents YAML file.')
+parser = argparse.ArgumentParser(description='Load agents configuration its configuration folder.')
+parser.add_argument('agentsDefinitionFolder', nargs='?', help='Path to the agents definition folder. Should contain a "agent.yaml" file')
 
 # Parse arguments
 args = parser.parse_args()
 
 # Check if the agents.yaml file path is provided
-if args.agentsYAML is None:
+if args.agentsDefinitionFolder is None:
     parser.print_help()
     sys.exit(1)
 
 # Construct the absolute path to the agents.yaml file
-yaml_file_path = os.path.join(pathlib.Path(__file__).parent.resolve(), args.agentsYAML)
+workDir = pathlib.Path(__file__).parent.resolve()
+agentsYAML = os.path.join(workDir, args.agentsDefinitionFolder, "agents.yaml")
 
 # Check if the provided file path exists
-if not os.path.isfile(yaml_file_path):
-    print(f"Error: The file {yaml_file_path} does not exist.")
+if not os.path.isfile(agentsYAML):
+    print(f"Error: The file {agentsYAML} does not exist.")
     sys.exit(1)
 
-with open(yaml_file_path, 'r') as stream:
-    agent_properties = yaml.safe_load(stream)
-    agents = [Agent(properties) for properties in agent_properties]
+with open(agentsYAML, 'r') as stream:
+    agentsProperties = yaml.safe_load(stream)
+    agents = [Agent(properties) for properties in agentsProperties]
+
+ctx = Context(client, agents)
+
+# LOAD ENV IDs
+agentsEnv = os.path.join(workDir, args.agentsDefinitionFolder, "agents.env")
+if os.path.isfile(agentsEnv):
+    with open(agentsEnv, 'r') as stream:
+        envProperties = yaml.safe_load(stream)
+        for properties in envProperties: # For each agent
+            for agent in agents: # Find its definition
+                if agent.name == properties['name']:
+                    if not hasattr(agent, 'id'): # If ID is not hardcoded set it
+                        agent.id = properties['id']
 
 print(f"Agents: {agents}")
 
-ctx = Context(client, agents)
+# Create new assistants
+for agent in agents:
+    if not hasattr(agent, 'id'): # It's a new agent
+        print("create assistant") # TODO
 
 network.build(ctx)
 threading.Thread(target=agentProcessor.processPendingActions, args=(ctx,)).start()
