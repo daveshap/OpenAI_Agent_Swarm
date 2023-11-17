@@ -4,6 +4,7 @@ class Agent:
     talksTo: list[str]
     channels: list[str]
     functions: list[str]
+    innitMessage: str
     
     def __init__(self, properties):       
         # Initialize all properties from the dictionary

@@ -2,6 +2,7 @@
   id: "asst_xWMYPN4yIJfrhD7S9AzLI0TO"
   talksTo: ["USER", "Worker 1", "Worker 2", "Worker 3"]
   functions: ["assignTask"]
+  innitMessage: "Explain how clouds are formed in 100 words or less"
 - name: "Worker 1"
   id: "asst_akckTEWToGurRT3Zcp33Ahe8"
   talksTo: ["Boss", "Worker 2", "Worker 3"]

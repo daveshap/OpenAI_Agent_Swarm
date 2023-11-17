@@ -52,4 +52,6 @@ threading.Thread(target=agentProcessor.processPendingActions, args=(ctx,)).start
 for agent in agents:
     threading.Thread(target=agentProcessor.processThread, args=(ctx, agent,)).start()
 
-ctx.queues['Boss'].put("Explain how clouds are formed in 100 words or less")
+for agent in agents:
+    if hasattr(agent, 'innitMessage'):
+        ctx.queues[agent.name].put(agent.innitMessage)
