@@ -1,7 +1,7 @@
 - name: "Boss" 
   talksTo: ["USER", "Worker 1", "Worker 2", "Worker 3"]
   functions: ["assignTask"]
-  innitMessage: "Explain how clouds are formed in 100 words or less"
+  initMessage: "Explain how clouds are formed in 100 words or less"
 - name: "Worker 1"
   talksTo: ["Boss", "Worker 2", "Worker 3"]
   channels: ["Worker"]

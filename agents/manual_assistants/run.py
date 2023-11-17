@@ -70,5 +70,5 @@ for agent in agents:
     threading.Thread(target=agentProcessor.processThread, args=(ctx, agent,)).start()
 
 for agent in agents:
-    if hasattr(agent, 'innitMessage'):
-        ctx.queues[agent.name].put(agent.innitMessage)
+    if hasattr(agent, 'initMessage'):
+        ctx.queues[agent.name].put(agent.initMessage)
