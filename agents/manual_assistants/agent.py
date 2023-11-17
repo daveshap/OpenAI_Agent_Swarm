@@ -1,4 +1,10 @@
 class Agent:
+    name: str
+    id: str
+    talksTo: list[str]
+    channels: list[str]
+    functions: list[str]
+    
     def __init__(self, properties):       
         # Initialize all properties from the dictionary
         for key, value in properties.items():
