@@ -20,14 +20,14 @@ if api_key is None:
 client = OpenAI(api_key=api_key)
 
 # Setup argument parser
-parser = argparse.ArgumentParser(description='Load agents configuration its configuration folder.')
-parser.add_argument('agentsDefinitionFolder', nargs='?', help='Path to the agents definition folder. Should contain a "agent.yaml" file')
+parser = argparse.ArgumentParser(description='Load agents configuration from its configuration folder.')
+parser.add_argument('--agents-definition-folder', dest='agentsDefinitionFolder', required=False, help='Path to the agents definition folder. Should contain an "agent.yaml" file')
 
 # Parse arguments
 args = parser.parse_args()
 
-# Check if the agents.yaml file path is provided
-if args.agentsDefinitionFolder is None:
+# Check if the agents-definition-folder argument was passed
+if not args.agentsDefinitionFolder:
     parser.print_help()
     sys.exit(1)
 
