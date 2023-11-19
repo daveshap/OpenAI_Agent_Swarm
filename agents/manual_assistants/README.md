@@ -10,18 +10,8 @@ pip install -r requirements.txt
 # Create a .env file on this path containing the OpenAI API key you wish to use. https://platform.openai.com/api-keys
 # OPENAI_API_KEY=sk-**********
 
-python run.py definitions/boss-worker3/
+python run.py  --agents-definition-folder definitions/boss-worker3/
 ```
-
-
-
-
-
-
-
-
-
-
 
 # Observations
 ## Choosing what to propagate
