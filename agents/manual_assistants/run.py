@@ -11,6 +11,8 @@ from context import Context
 import network
 from agent import Agent
 import agentProcessor
+import OAIWrapper
+import agentEnvHandler
 
 dotenv.load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
@@ -47,11 +49,15 @@ with open(agentsYAML, 'r') as stream:
 ctx = Context(client, agents)
 
 # LOAD ENV IDs
-agentsEnv = os.path.join(workDir, args.agentsDefinitionFolder, "agents.env")
-if os.path.isfile(agentsEnv):
-    with open(agentsEnv, 'r') as stream:
-        envProperties = yaml.safe_load(stream)
-        for properties in envProperties: # For each agent
+agentsIdsFile = os.path.join(workDir, args.agentsDefinitionFolder, "agentsIds.env")
+# Ensure the file exists by opening it in append mode, then immediately close it
+with open(agentsIdsFile, 'a'):
+    pass
+
+with open(agentsIdsFile, 'r') as stream:
+    agentsIds = yaml.safe_load(stream)
+    if agentsIds:
+        for properties in agentsIds: # For each agent
             for agent in agents: # Find its definition
                 if agent.name == properties['name']:
                     if not hasattr(agent, 'id'): # If ID is not hardcoded set it
@@ -59,10 +65,12 @@ if os.path.isfile(agentsEnv):
 
 print(f"Agents: {agents}")
 
+
 # Create new assistants
 for agent in agents:
     if not hasattr(agent, 'id'): # It's a new agent
-        print("create assistant") # TODO
+        OAIWrapper.createAssistant(client, agent)
+        agentEnvHandler.saveId(agentsIdsFile, agent)
 
 network.build(ctx)
 threading.Thread(target=agentProcessor.processPendingActions, args=(ctx,)).start()
