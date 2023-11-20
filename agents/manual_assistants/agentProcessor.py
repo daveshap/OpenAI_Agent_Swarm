@@ -6,34 +6,36 @@ from agent import Agent
 import os
 from execution import Execution
 
-def processPendingActions(ctx: Context):
-    while True:
-        for action in ctx.pendingActions:
-            if action['outputs']: # Output already set
-                ctx.client.beta.threads.runs.submit_tool_outputs(
-                            thread_id=action['threadId'],
-                            run_id=action['runId'],
-                            tool_outputs=action['outputs']
-                        )
-                ctx.agentsWaitingForActions.remove(action['agent'])
-        time.sleep(1)
+class AgentProcessor:
+    execution: Execution
 
-def processThread(ctx: Context, agent: Agent):
-    messages = []
-    
-    print(f"[{agent.name}] Id: {agent.id}")
-    if hasattr(agent, 'talksTo'):
-        print(f"[{agent.name}] Talks to: {agent.talksTo}")
-    
-    thread = ctx.client.beta.threads.create()    
-    print(f"[{agent.name}] Thread {thread.id}")
-    print(f"https://platform.openai.com/playground?mode=assistant&assistant={agent.id}&thread={thread.id}")
-    print("")
-    queue = ctx.queues[agent.name]
-    waitingForMessages = True
-    while True:
-        if agent.name not in ctx.agentsWaitingForActions:
-            if waitingForMessages:
+    def __init__(self):
+            self.execution = Execution()
+
+    def processThread(self, ctx: Context, agent: Agent):
+        messages = []
+
+        print(f"[{agent.name}] Id: {agent.id}")
+        if hasattr(agent, 'talksTo'):
+            print(f"[{agent.name}] Talks to: {agent.talksTo}")
+        
+        self.execution.threadId = ctx.client.beta.threads.create().id
+        print(f"[{agent.name}] Thread {self.execution.threadId}")
+        print(f"https://platform.openai.com/playground?mode=assistant&assistant={agent.id}&thread={self.execution.threadId}")
+        print("")
+        queue = ctx.queues[agent.name]
+        waitingForMessages = True
+        while True:
+
+            if self.execution.toolStatus.waiting:
+                if self.execution.toolStatus.output:
+                    ctx.client.beta.threads.runs.submit_tool_outputs(
+                            thread_id=self.execution.threadId,
+                            run_id=self.execution.runId,
+                            tool_outputs=self.execution.toolStatus.output
+                        )
+                    self.execution.toolStatus.waiting=False
+            elif waitingForMessages:
                 message = queue.get(block=True)
                 if message is not None:
                     ctx.lock.acquire()
@@ -42,23 +44,23 @@ def processThread(ctx: Context, agent: Agent):
                     # print(f"[{agent['name']}] Recieved: {message}")
                     messages.append(message)
                     ctx.client.beta.threads.messages.create(
-                        thread_id=thread.id,
+                        thread_id=self.execution.threadId,
                         content=message,
                         role='user'
                     )
 
                     run = ctx.client.beta.threads.runs.create(
-                        thread_id=thread.id,
+                        thread_id=self.execution.threadId,
                         assistant_id=agent.id
                     )
-
+                    self.execution.runId=run.id
             else:
-                run = ctx.client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+                run = ctx.client.beta.threads.runs.retrieve(thread_id=self.execution.threadId, run_id=self.execution.runId)
                 if run.status == 'completed':
                     waitingForMessages = True
                     
                     message_list = ctx.client.beta.threads.messages.list(
-                        thread_id=thread.id
+                        thread_id=self.execution.threadId
                     )
                     retrievedMessages = []
                     for datum in message_list.data:
@@ -79,19 +81,18 @@ def processThread(ctx: Context, agent: Agent):
                     outputs = []
                     submitOutput=True
                     for action in run.required_action.submit_tool_outputs.tool_calls:
-
+                        self.execution.actionId=action.id
+                        self.execution.arguments=json.loads(action.function.arguments)
                         function_name = action.function.name
-                        arguments = json.loads(action.function.arguments)
-                        execution = Execution(threadId=thread.id, runId=run.id, actionId=action.id, arguments=arguments)
                         if function_name == 'sendMessage':
-                            output = agentTools.sendMessage.execute(ctx, agent, execution)
+                            output = agentTools.sendMessage.execute(ctx, agent, self.execution)
                         elif function_name == 'broadcast':
-                            output = agentTools.broadcast.execute(ctx, agent, execution)
+                            output = agentTools.broadcast.execute(ctx, agent, self.execution)
                         elif function_name == 'assignTask':
-                            output = agentTools.assignTask.execute(ctx, agent, execution)                        
+                            output = agentTools.assignTask.execute(ctx, agent, self.execution)
                             submitOutput=False
                         elif function_name == 'resolveTask':
-                            output = agentTools.resolveTask.execute(ctx, agent, execution)
+                            output = agentTools.resolveTask.execute(ctx, agent, self.execution)
                         else:
                             print(f"[{agent.name}] ERROR unkown function {function_name}")
                             output = {
@@ -102,14 +103,13 @@ def processThread(ctx: Context, agent: Agent):
                                 outputs.append(output)
                         if submitOutput:
                             ctx.client.beta.threads.runs.submit_tool_outputs(
-                                thread_id=thread.id,
-                                run_id=run.id,
+                                thread_id=self.execution.threadId,
+                                run_id=self.execution.runId,
                                 tool_outputs=outputs
                             )
-                        if execution.exit:
+                        if self.execution.exit:
                             os._exit(0)
                         if ctx.lock.locked():
                             ctx.lock.release()
-                        print(f"[{agent.name}] RELEASES LOCK")
-                        
-        time.sleep(1)
+                        print(f"[{agent.name}] RELEASES LOCK")       
+            time.sleep(1)

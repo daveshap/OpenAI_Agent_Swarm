@@ -9,7 +9,6 @@ class Context:
         self.queues = {}
         self.agents = agents
         self.pendingActions = []
-        self.agentsWaitingForActions = []
         self.channels = []
         self.lock = threading.Lock()        
         self.outputs = []

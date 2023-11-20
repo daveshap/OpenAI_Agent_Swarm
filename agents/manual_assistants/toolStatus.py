@@ -1,16 +1,10 @@
-from toolStatus import ToolStatus
-
-class Execution:
-    threadId: str
-    runId: str
-    actionId: str
-    arguments: {}
-    exit: bool
-    toolStatus: ToolStatus
+class ToolStatus:
+    waiting: bool
+    output: {}
 
     def __init__(self):
-        self.exit = False
-        self.toolStatus = ToolStatus()
+        self.waiting = False
+        self.output = {}
         
     def __str__(self):
         properties_str = ', '.join(f'{key}: {value}' for key, value in self.__dict__.items())

@@ -10,7 +10,7 @@ import pathlib
 from context import Context
 import network
 from agent import Agent
-import agentProcessor
+from agentProcessor import AgentProcessor
 import OAIWrapper
 import agentEnvHandler
 
@@ -73,9 +73,10 @@ for agent in agents:
         agentEnvHandler.saveId(agentsIdsFile, agent)
 
 network.build(ctx)
-threading.Thread(target=agentProcessor.processPendingActions, args=(ctx,)).start()
+
 for agent in agents:
-    threading.Thread(target=agentProcessor.processThread, args=(ctx, agent,)).start()
+    processor = AgentProcessor()
+    threading.Thread(target=processor.processThread, args=(ctx, agent,)).start()
 
 for agent in agents:
     if hasattr(agent, 'initMessage'):

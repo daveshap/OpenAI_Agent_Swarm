@@ -26,13 +26,5 @@ definition=\
 
 def execute(ctx: Context, agent: Agent, execution: Execution):
     print(f"[{agent.name}]>[ASSIGN TASK {execution.actionId}]>[{execution.arguments['assignee']}] {execution.arguments['task']}")    
-    ctx.pendingActions.append({
-        "id": execution.actionId,
-        "agent": agent.name, 
-        "threadId": execution.threadId, 
-        "runId": execution.runId, 
-        "outputs": {}})
-
-    ctx.agentsWaitingForActions.append(agent.name)
-
+    execution.toolStatus.waiting=True
     ctx.queues[execution.arguments['assignee']].put(f"Task id: {execution.actionId}\n{execution.arguments['task']}")
