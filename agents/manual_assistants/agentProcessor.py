@@ -85,14 +85,14 @@ class AgentProcessor:
                         self.execution.arguments=json.loads(action.function.arguments)
                         function_name = action.function.name
                         if function_name == 'sendMessage':
-                            output = agentTools.sendMessage.execute(ctx, agent, self.execution)
+                            output = agentTools.sendMessage(ctx, agent, self.execution)
                         elif function_name == 'broadcast':
-                            output = agentTools.broadcast.execute(ctx, agent, self.execution)
+                            output = agentTools.broadcast(ctx, agent, self.execution)
                         elif function_name == 'assignTask':
-                            output = agentTools.assignTask.execute(ctx, agent, self.execution)
+                            output = agentTools.assignTask(ctx, agent, self.execution)
                             submitOutput=False
                         elif function_name == 'resolveTask':
-                            output = agentTools.resolveTask.execute(ctx, agent, self.execution)
+                            output = agentTools.resolveTask(ctx, agent, self.execution)
                         else:
                             print(f"[{agent.name}] ERROR unkown function {function_name}")
                             output = {
