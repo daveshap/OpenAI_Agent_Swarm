@@ -4,7 +4,7 @@ This folder includes some initial tests on how function calling may enable HAAS 
 # How to execute
 ```
 pip install -r requirements.txt
-# If you alredy had the openai module installed you may need to:
+# If you already had the openai module installed you may need to:
 # pip install openai --upgrade
 
 # Create a .env file on this path containing the OpenAI API key you wish to use. https://platform.openai.com/api-keys
