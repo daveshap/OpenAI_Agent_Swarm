@@ -1,6 +1,7 @@
 from context import Context
 from agent import Agent
 from execution import Execution
+from logger import AgentLogger
 
 definition=\
     {
@@ -25,6 +26,7 @@ definition=\
     }
 
 def execute(ctx: Context, agent: Agent, execution: Execution):
-    print(f"[{agent.name}]>[ASSIGN TASK {execution.actionId}]>[{execution.arguments['assignee']}] {execution.arguments['task']}")    
+    log = AgentLogger(agent.name, agent)
+    log.info(f"[ASSIGN TASK {execution.actionId}]>[{execution.arguments['assignee']}] {execution.arguments['task']}", extra={'action_id': execution.actionId, 'task': execution.arguments['task'], 'assignee': execution.arguments['assignee']})
     execution.toolStatus.waiting=True
     ctx.queues[execution.arguments['assignee']].put(f"Task id: {execution.actionId}\n{execution.arguments['task']}")

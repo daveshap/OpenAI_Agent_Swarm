@@ -1,6 +1,7 @@
 from context import Context
 from agent import Agent
 from execution import Execution
+from logger import AgentLogger
 
 definition=\
     {
@@ -27,10 +28,11 @@ definition=\
 
 
 def execute(ctx: Context, agent: Agent, execution: Execution):
+    log = AgentLogger(agent.name, agent)
     if hasattr(agent, 'channels') and (execution.arguments['channel'] in agent.channels):
         for channel in ctx.channels:
             if channel['name'] == execution.arguments['channel']:
-                print(f"[{agent.name}]->({execution.arguments['channel']}) {execution.arguments['message']}")
+                log.info(f"({execution.arguments['channel']}) {execution.arguments['message']}", extra={'broadcast_channel': execution.arguments['channel']})
                 for recipient in channel['agents']:
                     if recipient != agent.name: # Do not queue the message on the agent that sent in
                         ctx.queues[recipient].put(execution.arguments['message'])                
@@ -39,7 +41,7 @@ def execute(ctx: Context, agent: Agent, execution: Execution):
             "output": "Message sent"
             }
     else:
-        print(f"[{agent.name}] ERROR unkown channel {execution.arguments['channel']}")
+        log.error(f"Unkown channel {execution.arguments['channel']}", extra={'channel': execution.arguments['channel']})
         return {
             "tool_call_id": execution.actionId,
             "output": "Unkown channel"

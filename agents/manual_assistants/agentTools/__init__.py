@@ -1,4 +1,4 @@
-from .sendMessage import execute as sendMessage
-from .broadcast import execute as broadcast
-from .assignTask import execute as assignTask
-from .resolveTask import execute as resolveTask
+from .sendMessage import execute as sendMessageFunction
+from .broadcast import execute as broadcastFunction
+from .assignTask import execute as assignTaskFunction
+from .resolveTask import execute as resolveTaskFunction
