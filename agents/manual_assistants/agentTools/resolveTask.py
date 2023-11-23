@@ -1,6 +1,7 @@
 from context import Context
 from agent import Agent
 from execution import Execution
+from logger import AgentLogger
 
 definition=\
     {
@@ -26,7 +27,8 @@ definition=\
 
 
 def execute(ctx: Context, agent: Agent, execution: Execution):
-    print(f"[{agent.name}]>[RESOLVE TASK {execution.arguments['id']}] {execution.arguments['result']}")
+    log = AgentLogger(agent.name, agent)
+    log.info(f"[RESOLVE TASK {execution.arguments['id']}] {execution.arguments['result']}", extra={'result': execution.arguments['result']})
     outputs = []
     outputs.append({
             "tool_call_id": execution.arguments['id'],

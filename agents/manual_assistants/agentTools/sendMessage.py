@@ -2,6 +2,7 @@ import os
 from context import Context
 from agent import Agent
 from execution import Execution
+from logger import AgentLogger
 
 definition=\
     {
@@ -27,17 +28,17 @@ definition=\
     }
 
 def execute(ctx: Context, agent: Agent, execution: Execution):
+    log = AgentLogger(agent.name, agent)
     if hasattr(agent, 'talksTo') and (execution.arguments['recipient'] in agent.talksTo):
         if execution.arguments['recipient'] == "USER":
-            print(f"[{ctx.agent.name}] Result: {execution.arguments['message']}")
+            log.info(f"Result: {execution.arguments['message']}", extra={'result': execution.arguments['message']})
             os._exit(0)
         else:
-            print(f"[{ctx.agent.name}]->[{execution.arguments['recipient']}] {execution.arguments['message']}")
-            
+            log.info(f"[{execution.arguments['recipient']}] {execution.arguments['message']}", extra={'recipient': execution.arguments['recipient']})
             ctx.queues[execution.arguments['recipient']].put(execution.arguments['message'])
             return {
                 "tool_call_id": ctx.action.id,
                 "output": "Message sent"
                 }
     else:
-        print(f"[{agent.name}] ERROR unkown recipient {execution.arguments['recipient']}")
+        log.error(f"Unkown recipient {execution.arguments['recipient']}")

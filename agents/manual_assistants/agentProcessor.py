@@ -5,6 +5,7 @@ from context import Context
 from agent import Agent
 import os
 from execution import Execution
+from logger import AgentLogger
 
 class AgentProcessor:
     execution: Execution
@@ -13,16 +14,16 @@ class AgentProcessor:
             self.execution = Execution()
 
     def processThread(self, ctx: Context, agent: Agent):
+        self.log = AgentLogger(agent.name, agent)
         messages = []
 
-        print(f"[{agent.name}] Id: {agent.id}")
+        self.log.info(f"Id: {agent.id}")
         if hasattr(agent, 'talksTo'):
-            print(f"[{agent.name}] Talks to: {agent.talksTo}")
+            self.log.info(f"Talks to: {agent.talksTo}")
         
         self.execution.threadId = ctx.client.beta.threads.create().id
-        print(f"[{agent.name}] Thread {self.execution.threadId}")
-        print(f"https://platform.openai.com/playground?mode=assistant&assistant={agent.id}&thread={self.execution.threadId}")
-        print("")
+        self.log.info(f"Thread {self.execution.threadId}")
+        self.log.info(f"https://platform.openai.com/playground?mode=assistant&assistant={agent.id}&thread={self.execution.threadId}")
         queue = ctx.queues[agent.name]
         waitingForMessages = True
         while True:
@@ -39,9 +40,9 @@ class AgentProcessor:
                 message = queue.get(block=True)
                 if message is not None:
                     ctx.lock.acquire()
-                    print(f"[{agent.name}] ACQUIRES LOCK")
+                    self.log.info("ACQUIRES LOCK")
                     waitingForMessages = False
-                    # print(f"[{agent['name']}] Recieved: {message}")
+                    # self.log.info(f"Recieved: {message}")
                     messages.append(message)
                     ctx.client.beta.threads.messages.create(
                         thread_id=self.execution.threadId,
@@ -72,11 +73,11 @@ class AgentProcessor:
                     while i < len(retrievedMessages):
                         retrievedMessage=retrievedMessages[i]
                         messages.append(retrievedMessage)
-                        print(f"[{agent.name}] Message: {retrievedMessage}")
+                        self.log.info(f"Message: {retrievedMessage}")
                         i+=1
                     if ctx.lock.locked():
                         ctx.lock.release()
-                    print(f"[{agent.name}] RELEASES LOCK")
+                    self.log.info("RELEASES LOCK")
                 elif run.status == 'requires_action':                    
                     outputs = []
                     submitOutput=True
@@ -85,16 +86,16 @@ class AgentProcessor:
                         self.execution.arguments=json.loads(action.function.arguments)
                         function_name = action.function.name
                         if function_name == 'sendMessage':
-                            output = agentTools.sendMessage(ctx, agent, self.execution)
+                            output = agentTools.sendMessageFunction(ctx, agent, self.execution)
                         elif function_name == 'broadcast':
-                            output = agentTools.broadcast(ctx, agent, self.execution)
+                            output = agentTools.broadcastFunction(ctx, agent, self.execution)
                         elif function_name == 'assignTask':
-                            output = agentTools.assignTask(ctx, agent, self.execution)
+                            output = agentTools.assignTaskFunction(ctx, agent, self.execution)
                             submitOutput=False
                         elif function_name == 'resolveTask':
-                            output = agentTools.resolveTask(ctx, agent, self.execution)
+                            output = agentTools.resolveTaskFunction(ctx, agent, self.execution)
                         else:
-                            print(f"[{agent.name}] ERROR unkown function {function_name}")
+                            self.log.error(f"Unkown function {function_name}")
                             output = {
                                 "tool_call_id": action.id,
                                 "output": "Unkown function"
@@ -111,5 +112,5 @@ class AgentProcessor:
                             os._exit(0)
                         if ctx.lock.locked():
                             ctx.lock.release()
-                        print(f"[{agent.name}] RELEASES LOCK")       
+                        self.log.info("RELEASES LOCK")       
             time.sleep(1)
