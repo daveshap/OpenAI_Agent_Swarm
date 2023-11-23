@@ -1,6 +1,18 @@
 # Objective
 This folder includes some initial tests on how function calling may enable HAAS communication and cognition. A network with a limited number of agents is created as a test to identify issues and help guide the architecture: one boss talking to three worker agents.
 
+# How to execute
+```
+pip install -r requirements.txt
+# If you already had the openai module installed you may need to:
+# pip install openai --upgrade
+
+# Create a .env file on this path containing the OpenAI API key you wish to use. https://platform.openai.com/api-keys
+# OPENAI_API_KEY=sk-**********
+
+python run.py  --agents-definition-folder definitions/boss-worker3/
+```
+
 # Observations
 ## Choosing what to propagate
 The simplest approach when connecting multiple agents is to have the downstream agents get all the messages from their source nodes. This limits the capacity of the model greatly.

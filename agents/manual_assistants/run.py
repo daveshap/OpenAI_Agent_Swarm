@@ -10,7 +10,9 @@ import pathlib
 from context import Context
 import network
 from agent import Agent
-import agentProcessor
+from agentProcessor import AgentProcessor
+import OAIWrapper
+import agentEnvHandler
 
 dotenv.load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
@@ -20,36 +22,62 @@ if api_key is None:
 client = OpenAI(api_key=api_key)
 
 # Setup argument parser
-parser = argparse.ArgumentParser(description='Load agents configuration from a YAML file.')
-parser.add_argument('agentsYAML', nargs='?', help='Path to the agents YAML file.')
+parser = argparse.ArgumentParser(description='Load agents configuration from its configuration folder.')
+parser.add_argument('--agents-definition-folder', dest='agentsDefinitionFolder', required=False, help='Path to the agents definition folder. Should contain an "agent.yaml" file')
 
 # Parse arguments
 args = parser.parse_args()
 
-# Check if the agents.yaml file path is provided
-if args.agentsYAML is None:
+# Check if the agents-definition-folder argument was passed
+if not args.agentsDefinitionFolder:
     parser.print_help()
     sys.exit(1)
 
 # Construct the absolute path to the agents.yaml file
-yaml_file_path = os.path.join(pathlib.Path(__file__).parent.resolve(), args.agentsYAML)
+workDir = pathlib.Path(__file__).parent.resolve()
+agentsYAML = os.path.join(workDir, args.agentsDefinitionFolder, "agents.yaml")
 
 # Check if the provided file path exists
-if not os.path.isfile(yaml_file_path):
-    print(f"Error: The file {yaml_file_path} does not exist.")
+if not os.path.isfile(agentsYAML):
+    print(f"Error: The file {agentsYAML} does not exist.")
     sys.exit(1)
 
-with open(yaml_file_path, 'r') as stream:
-    agent_properties = yaml.safe_load(stream)
-    agents = [Agent(properties) for properties in agent_properties]
-
-print(f"Agents: {agents}")
+with open(agentsYAML, 'r') as stream:
+    agentsProperties = yaml.safe_load(stream)
+    agents = [Agent(properties) for properties in agentsProperties]
 
 ctx = Context(client, agents)
 
-network.build(ctx)
-threading.Thread(target=agentProcessor.processPendingActions, args=(ctx,)).start()
-for agent in agents:
-    threading.Thread(target=agentProcessor.processThread, args=(ctx, agent,)).start()
+# LOAD ENV IDs
+agentsIdsFile = os.path.join(workDir, args.agentsDefinitionFolder, "agentsIds.env")
+# Ensure the file exists by opening it in append mode, then immediately close it
+with open(agentsIdsFile, 'a'):
+    pass
 
-ctx.queues['Boss'].put("Explain how clouds are formed in 100 words or less")
+with open(agentsIdsFile, 'r') as stream:
+    agentsIds = yaml.safe_load(stream)
+    if agentsIds:
+        for properties in agentsIds: # For each agent
+            for agent in agents: # Find its definition
+                if agent.name == properties['name']:
+                    if not hasattr(agent, 'id'): # If ID is not hardcoded set it
+                        agent.id = properties['id']
+
+print(f"Agents: {agents}")
+
+
+# Create new assistants
+for agent in agents:
+    if not hasattr(agent, 'id'): # It's a new agent
+        OAIWrapper.createAssistant(client, agent)
+        agentEnvHandler.saveId(agentsIdsFile, agent)
+
+network.build(ctx)
+
+for agent in agents:
+    processor = AgentProcessor()
+    threading.Thread(target=processor.processThread, args=(ctx, agent,)).start()
+
+for agent in agents:
+    if hasattr(agent, 'initMessage'):
+        ctx.queues[agent.name].put(agent.initMessage)

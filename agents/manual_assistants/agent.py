@@ -1,6 +1,21 @@
 class Agent:
-    def __init__(self, properties):       
-        # Initialize all properties from the dictionary
+    # From OAI assistant's API
+    name: str
+    id: str
+    instructions: str
+    tools: list[str]
+    model: str
+    
+    # Custom
+    talksTo: list[str]
+    channels: list[str]
+    initMessage: str
+ 
+    def __init__(self, properties):
+        # Set default values
+        self.model="gpt-4-1106-preview"
+
+        # Overwrite with provided values from YAML
         for key, value in properties.items():
             setattr(self, key, value)
 
