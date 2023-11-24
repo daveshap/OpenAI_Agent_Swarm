@@ -7,11 +7,13 @@ import os
 from execution import Execution
 from logger import AgentLogger
 
+
 class AgentProcessor:
     execution: Execution
 
-    def __init__(self):
-            self.execution = Execution()
+    def __init__(self, function_manager):
+        self.execution = Execution()
+        self.function_manager = function_manager
 
     def processThread(self, ctx: Context, agent: Agent):
         self.log = AgentLogger(agent.name, agent)
@@ -80,28 +82,30 @@ class AgentProcessor:
                     self.log.info("RELEASES LOCK")
                 elif run.status == 'requires_action':                    
                     outputs = []
-                    submitOutput=True
+                    submitOutput = True
                     for action in run.required_action.submit_tool_outputs.tool_calls:
-                        self.execution.actionId=action.id
-                        self.execution.arguments=json.loads(action.function.arguments)
+                        self.execution.actionId = action.id
+                        self.execution.arguments = json.loads(action.function.arguments)
                         function_name = action.function.name
-                        if function_name == 'sendMessage':
-                            output = agentTools.sendMessageFunction(ctx, agent, self.execution)
-                        elif function_name == 'broadcast':
-                            output = agentTools.broadcastFunction(ctx, agent, self.execution)
-                        elif function_name == 'assignTask':
-                            output = agentTools.assignTaskFunction(ctx, agent, self.execution)
-                            submitOutput=False
-                        elif function_name == 'resolveTask':
-                            output = agentTools.resolveTaskFunction(ctx, agent, self.execution)
+                        if self.function_manager.function_exists(function_name):
+                            if function_name == 'assign_task':
+                                submitOutput = False
+                            success, output, user_message = self.function_manager.run_function(function_name, self.execution.arguments, ctx, agent, self.execution)
                         else:
                             self.log.error(f"Unkown function {function_name}")
                             output = {
                                 "tool_call_id": action.id,
                                 "output": "Unkown function"
-                                }
+                            }
+                        if not success:
+                            error_message = f"Error running function {function_name}: {user_message}"
+                            self.log.error(error_message)
+                            output = {
+                                "tool_call_id": action.id,
+                                "output": error_message,
+                            }
                         if output:
-                                outputs.append(output)
+                            outputs.append(output)
                         if submitOutput:
                             ctx.client.beta.threads.runs.submit_tool_outputs(
                                 thread_id=self.execution.threadId,

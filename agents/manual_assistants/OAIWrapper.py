@@ -1,14 +1,15 @@
 from agent import Agent
 from openai import OpenAI
-from agentTools import *
+from function_manager import FunctionManager
 
-def createAssistant(client: OpenAI, agent: Agent):
-    toolList=[]
+
+def createAssistant(client: OpenAI, agent: Agent, function_manager: FunctionManager):
+    toolList = []
     if hasattr(agent, "tools"):
         for tool in agent.tools:
-            toolClass=globals().get(tool, None)
-            toolDict={"type": "function", "function": toolClass.definition}
-            toolList.append(toolDict)
+            if function_manager.function_exists(tool):
+                toolDict = {"type": "function", "function": function_manager.get_function_config(tool)}
+                toolList.append(toolDict)
     print(toolList)
     assistant = client.beta.assistants.create(
         name=agent.name,
@@ -16,4 +17,4 @@ def createAssistant(client: OpenAI, agent: Agent):
         tools=toolList,
         model=agent.model
     )
-    agent.id=assistant.id
+    agent.id = assistant.id
