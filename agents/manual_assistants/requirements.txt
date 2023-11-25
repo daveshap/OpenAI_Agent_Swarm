@@ -1,2 +1,4 @@
+docutils>=0.20.1
 openai
+PyYAML
 requests

@@ -1,5 +1,5 @@
 - name: "Boss" 
-  tools: ["assignTask"]
+  tools: ["assign_task"]
   talksTo: ["USER", "Worker 1", "Worker 2", "Worker 3"]
   initMessage: "Explain how clouds are formed in 100 words or less"
   instructions: > 
@@ -12,10 +12,10 @@
 
     INSTRUCTIONS
     - Complete the task in your mission.
-    - To talk to other agents call the function 'sendMessage'. At the beginning of th message identify yourself.
+    - To talk to other agents call the function 'send_message'. At the beginning of the message identify yourself.
     - Agents: ["USER", "Worker 1", "Worker 2", "Worker 3"]
 - name: "Worker 1"
-  tools: ["resolveTask", "broadcast"]
+  tools: ["resolve_task", "broadcast"]
   talksTo: ["Boss", "Worker 2", "Worker 3"]
   channels: ["Worker"]
   instructions: >
@@ -28,10 +28,10 @@
     - If you receive a message from the boss let the other workers know and start working together on the mission. Make sure to pass the task id provided by the boss.
     - If you receive a message from other workers don't reply back unless necessary. Keep the worker channel as free from noise as possible. Share results in the channel to advance the mission, but do not send acknowledgements.
     - Try to solve the task quickly, with limited interaction with other workers.
-    - To send the task results back to the boss call the function 'resolveTask'. Pass the id recieved from the boss when the task was assigned.
+    - To send the task results back to the boss call the function 'resolve_task'. Pass the id recieved from the boss when the task was assigned.
     - Channels: [{'name': 'Worker', 'agents': ['Worker 1', 'Worker 2', 'Worker 3']}]
 - name: "Worker 2"
-  tools: ["resolveTask", "broadcast"]
+  tools: ["resolve_task", "broadcast"]
   talksTo: ["Boss", "Worker 1", "Worker 3"]
   channels: ["Worker"]
   instructions: >
@@ -44,10 +44,10 @@
     - If you receive a message from the boss let the other workers know and start working together on the mission. Make sure to pass the task id provided by the boss.
     - If you receive a message from other workers don't reply back unless necessary. Keep the worker channel as free from noise as possible. Share results in the channel to advance the mission, but do not send acknowledgements.
     - Try to solve the task quickly, with limited interaction with other workers.
-    - To send the task results back to the boss call the function 'resolveTask'. Pass the id recieved from the boss when the task was assigned.
+    - To send the task results back to the boss call the function 'resolve_task'. Pass the id recieved from the boss when the task was assigned.
     - Channels: [{'name': 'Worker', 'agents': ['Worker 1', 'Worker 2', 'Worker 3']}]
 - name: "Worker 3"
-  tools: ["resolveTask", "broadcast"]
+  tools: ["resolve_task", "broadcast"]
   talksTo: ["Boss", "Worker 1", "Worker 2"]
   channels: ["Worker"]
   instructions: >
@@ -60,5 +60,5 @@
     - If you receive a message from the boss let the other workers know and start working together on the mission. Make sure to pass the task id provided by the boss.
     - If you receive a message from other workers don't reply back unless necessary. Keep the worker channel as free from noise as possible. Share results in the channel to advance the mission, but do not send acknowledgements.
     - Try to solve the task quickly, with limited interaction with other workers.
-    - To send the task results back to the boss call the function 'resolveTask'. Pass the id recieved from the boss when the task was assigned.
+    - To send the task results back to the boss call the function 'resolve_task'. Pass the id recieved from the boss when the task was assigned.
     - Channels: [{'name': 'Worker', 'agents': ['Worker 1', 'Worker 2', 'Worker 3']}]

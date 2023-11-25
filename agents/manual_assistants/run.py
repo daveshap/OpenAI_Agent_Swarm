@@ -11,6 +11,7 @@ from context import Context
 import network
 from agent import Agent
 from agentProcessor import AgentProcessor
+from function_manager import FunctionManager
 import OAIWrapper
 import agentEnvHandler
 
@@ -65,17 +66,19 @@ with open(agentsIdsFile, 'r') as stream:
 
 print(f"Agents: {agents}")
 
+function_manager = FunctionManager()
+function_manager.load_functions()
 
 # Create new assistants
 for agent in agents:
     if not hasattr(agent, 'id'): # It's a new agent
-        OAIWrapper.createAssistant(client, agent)
+        OAIWrapper.createAssistant(client, agent, function_manager)
         agentEnvHandler.saveId(agentsIdsFile, agent)
 
 network.build(ctx)
 
 for agent in agents:
-    processor = AgentProcessor()
+    processor = AgentProcessor(function_manager)
     threading.Thread(target=processor.processThread, args=(ctx, agent,)).start()
 
 for agent in agents:

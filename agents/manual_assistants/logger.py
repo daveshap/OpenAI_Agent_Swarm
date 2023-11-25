@@ -50,3 +50,17 @@ class AgentLogger:
         http_debugger_handler.setLevel(logging.DEBUG)
         logger.addHandler(http_debugger_handler)
         return logger
+
+
+class Logger:
+    def __new__(cls, name):
+        logger = logging.getLogger(name)
+        # Prevent duplicate loggers.
+        if logger.hasHandlers():
+            return logger
+        logger.setLevel(logging.DEBUG)
+        log_console_handler = logging.StreamHandler()
+        log_console_handler.setFormatter(logging.Formatter(DEFAULT_LOG_FORMAT))
+        log_console_handler.setLevel(logging.DEBUG)
+        logger.addHandler(log_console_handler)
+        return logger
