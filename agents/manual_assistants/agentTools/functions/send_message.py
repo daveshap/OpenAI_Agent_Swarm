@@ -24,14 +24,8 @@ class SendMessage(Function):
             else:
                 log.info(f"[{recipient}] {message}", extra={'recipient': recipient})
                 self.context.queues[recipient].put(message)
-                return {
-                    "tool_call_id": self.context.action.id,
-                    "output": f"Message sent to {recipient}"
-                }
+                return f"Message sent to {recipient}"
         else:
             message = f"Unkown recipient {recipient}"
             log.error(message)
-            return {
-                "tool_call_id": self.context.action.id,
-                "output": message
-            }
+            return message

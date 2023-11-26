@@ -87,25 +87,32 @@ class AgentProcessor:
                         self.execution.actionId = action.id
                         self.execution.arguments = json.loads(action.function.arguments)
                         function_name = action.function.name
+                        self.log.debug(f"Received tool request, ID: {action.id}, tool: {function_name}, arguments: {self.execution.arguments}", extra={'action_id': action.id, 'tool': function_name, 'arguments': self.execution.arguments})
+                        output = None
                         if self.function_manager.function_exists(function_name):
                             if function_name == 'assign_task':
                                 submitOutput = False
-                            success, output, user_message = self.function_manager.run_function(function_name, self.execution.arguments, ctx, agent, self.execution)
+                            success, tool_output, user_message = self.function_manager.run_function(function_name, self.execution.arguments, ctx, agent, self.execution)
+                            if success:
+                                self.log.debug(f"Tool run {action.id} executed successfully, tool: {function_name}, output: {tool_output}", extra={'action_id': action.id, 'tool': function_name})
+                                output = {
+                                    "tool_call_id": action.id,
+                                    "output": tool_output
+                                }
+                            else:
+                                error_message = f"Tool run {action.id}, error running function {function_name}: {user_message}"
+                                self.log.error(error_message, extra={'action_id': action.id, 'tool': function_name})
+                                output = {
+                                    "tool_call_id": action.id,
+                                    "output": error_message,
+                                }
                         else:
-                            self.log.error(f"Unkown function {function_name}")
+                            self.log.error(f"Tool run {action.id}, unknown tool {function_name}", extra={'action_id': action.id, 'tool': function_name})
                             output = {
                                 "tool_call_id": action.id,
                                 "output": "Unkown function"
                             }
-                        if not success:
-                            error_message = f"Error running function {function_name}: {user_message}"
-                            self.log.error(error_message)
-                            output = {
-                                "tool_call_id": action.id,
-                                "output": error_message,
-                            }
-                        if output:
-                            outputs.append(output)
+                        outputs.append(output)
                         if submitOutput:
                             ctx.client.beta.threads.runs.submit_tool_outputs(
                                 thread_id=self.execution.threadId,
