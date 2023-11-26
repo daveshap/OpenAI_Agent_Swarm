@@ -66,7 +66,7 @@ a dictionary of the function definition. This approach allows passing much more 
 
 ## Support for Langchain tools
 
-[Langchain](https://docs.langchain.com) has many useful [tools](https://python.langchain.com/docs/modules/agents/tools/)
+[Langchain](https://docs.langchain.com) has many useful [tools](https://python.langchain.com/docs/integrations/tools/)
 that can be used in function calls.
 
 To use a Langchain tool as function:
