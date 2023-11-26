@@ -12,7 +12,7 @@ import network
 from agent import Agent
 from agentProcessor import AgentProcessor
 from function_manager import FunctionManager
-import OAIWrapper
+from OAIWrapper import OAIWrapper
 import agentEnvHandler
 
 dotenv.load_dotenv()
@@ -71,8 +71,11 @@ function_manager.load_functions()
 
 # Create new assistants
 for agent in agents:
-    if not hasattr(agent, 'id'): # It's a new agent
-        OAIWrapper.createAssistant(client, agent, function_manager)
+    oai_wrapper = OAIWrapper(client, agent, function_manager)
+    if hasattr(agent, 'id'):  # It's an existing agent
+        oai_wrapper.updateAssistant()
+    else:  # It's a new agent
+        oai_wrapper.createAssistant()
         agentEnvHandler.saveId(agentsIdsFile, agent)
 
 network.build(ctx)
