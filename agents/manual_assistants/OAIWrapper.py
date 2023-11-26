@@ -41,5 +41,5 @@ class OAIWrapper:
                 if self.function_manager.function_exists(tool):
                     toolDict = {"type": "function", "function": self.function_manager.get_function_config(tool)}
                     toolList.append(toolDict)
-        self.log.debug(f"Tool list: {toolList}")
+        self.log.debug(f"Tool list: {toolList}", extra={"toolList": toolList})
         return toolList
