@@ -20,7 +20,7 @@ Functions are created as callable Python classes, that inherit from the base `Fu
 The class name must be the camel-cased version of the snake-cased function name, so `test_function` becomes `TestFunction`.
 
 There is one required method to implement, `__call__`, its return value can techincally be anything, including no return,
-but is generally a dict necessary to return a tool call.
+but is generally the output to return to a tool call.
 
 ```python
 from function import Function
@@ -43,17 +43,9 @@ class TestFunction(Function):
         try:
             repeated_content = " ".join([word] * repeats)
             enclosed_content = f"{enclose_with}{repeated_content}{enclose_with}"
-            output = {
-                "tool_call_id": action_id,
-                'output': enclosed_content,
-            }
-            output = {
-            }
+            output = enclosed_content
         except Exception as e:
-            output = {
-                "tool_call_id": action_id,
-                'output': f"ERROR: {str(e)}",
-            }
+            output = f"ERROR: {str(e)}"
         return output
 ```
 
@@ -81,7 +73,7 @@ To use a Langchain tool as function:
 
 1. Find the name of the tool class, e.g. `MoveFileTool` or `ShellTool`.
 2. Prefix that class name with `Langchain-`
-3. Add it to the `functions` list for the agent:
+3. Add it to the `tools` list for the agent:
 
 ```yaml
 - name: "Boss" 
