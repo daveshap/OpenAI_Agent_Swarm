@@ -74,6 +74,8 @@ class FunctionManager:
         return False, None, f"Function {function_name} not found"
 
     def function_exists(self, function_name):
+        if self.is_langchain_tool(function_name):
+            return bool(self.get_langchain_tool(function_name))
         return function_name in self.functions
 
     def is_langchain_tool(self, function_name):

@@ -17,7 +17,7 @@ class ResolveTask(Function):
         """
         log = AgentLogger(self.agent.name, self.agent)
         action_id = self.execution.actionId
-        log.info(f"[RESOLVE TASK {id}] {result}", extra={'result': result})
+        log.info(f"Action ID: {action_id} [RESOLVE TASK {id}] {result}", extra={'result': result, 'action_id': action_id})
         outputs = []
         outputs.append({
             "tool_call_id": id,
@@ -27,7 +27,4 @@ class ResolveTask(Function):
             if pendingAction['id'] == id:
                 pendingAction['outout'] = outputs
         self.execution.exit = True
-        return {
-            "tool_call_id": action_id,
-            "output": f"Task {id} resolved"
-        }
+        return f"Task {id} resolved"
