@@ -69,14 +69,14 @@ print(f"Agents: {agents}")
 function_manager = FunctionManager()
 function_manager.load_functions()
 
-# Create new assistants
+# Create/update assistants.
 for agent in agents:
     oai_wrapper = OAIWrapper(client, agent, function_manager)
-    if hasattr(agent, 'id'):  # It's an existing agent
-        oai_wrapper.updateAssistant()
-    else:  # It's a new agent
+    if not hasattr(agent, 'id'):  # It's a new agent
         oai_wrapper.createAssistant()
         agentEnvHandler.saveId(agentsIdsFile, agent)
+    # Tools are sent to the assistant on update, so always update.
+    oai_wrapper.updateAssistant()
 
 network.build(ctx)
 

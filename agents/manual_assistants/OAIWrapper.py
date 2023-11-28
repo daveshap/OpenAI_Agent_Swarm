@@ -1,5 +1,7 @@
+import sys
+
 from agent import Agent
-from openai import OpenAI
+from openai import OpenAI, NotFoundError
 from logger import AgentLogger
 from function_manager import FunctionManager
 
@@ -13,26 +15,29 @@ class OAIWrapper:
         self.log = AgentLogger(self.agent.name, self.agent)
 
     def createAssistant(self):
-        self.log.info(f"Creating assistant: {self.agent.name}")
-        toolList = self.getAgentTools()
         assistant = self.client.beta.assistants.create(
             name=self.agent.name,
             instructions=self.agent.instructions,
-            tools=toolList,
             model=self.agent.model
         )
         self.agent.id = assistant.id
+        self.log.info(f"Created assistant: {self.agent.name}")
 
     def updateAssistant(self):
-        self.log.debug(f"Updating existing assistant: {self.agent.name}")
         toolList = self.getAgentTools()
-        self.client.beta.assistants.update(
-            assistant_id=self.agent.id,
-            name=self.agent.name,
-            instructions=self.agent.instructions,
-            tools=toolList,
-            model=self.agent.model
-        )
+        try:
+            self.client.beta.assistants.update(
+                assistant_id=self.agent.id,
+                name=self.agent.name,
+                instructions=self.agent.instructions,
+                tools=toolList,
+                model=self.agent.model
+            )
+            self.log.debug(f"Updated existing assistant: {self.agent.name}")
+        except NotFoundError as e:
+            self.log.error(f"Assistant {self.agent.name} not found: {e}")
+            self.log.error("Remove the cached assistants .env file in the definition directory and try again.")
+            sys.exit(1)
 
     def getAgentTools(self):
         toolList = []
