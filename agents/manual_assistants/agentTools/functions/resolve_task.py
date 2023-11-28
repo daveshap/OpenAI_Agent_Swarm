@@ -17,7 +17,7 @@ class ResolveTask(Function):
         """
         log = AgentLogger(self.agent.name, self.agent)
         action_id = self.execution.actionId
-        log.info(f"Action ID: {action_id} [RESOLVE TASK {id}] {result}", extra={'result': result, 'action_id': action_id})
+        log.info(f"[RESOLVE TASK {id}] {result}", extra={'result': result, 'action_id': action_id, 'task_id': id})
         outputs = []
         outputs.append({
             "tool_call_id": id,
