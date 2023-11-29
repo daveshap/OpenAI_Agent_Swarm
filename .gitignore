@@ -1,3 +1,6 @@
 key_openai.txt
 /**/*/.env
 *.pyc
+/**/*/agentsIds.env
+/**/*/__pycache__
+.vscode

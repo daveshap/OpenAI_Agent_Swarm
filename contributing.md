@@ -19,3 +19,5 @@ Thank you for your interest in contributing to the Hierarchical Autonomous Agent
 2. **Adhere to the C3P0 Policy**: We follow the Collaborative Culture Community Policy: Zero Tolerance (C3P0) for harmful behavior and time-wasting. [C3P0 Policy](https://github.com/daveshap/C3P0).
 
 3. **PR Requirements**: All PRs must include a clear description. Limit submissions to one PR per day, ensuring it adheres to the project's style and structure. Refraining from reformatting, refactoring, or restructuring the project is crucial—non-compliant PRs will be rejected.
+
+4. **Examples and Demos**: All PRs must include examples and demos along with the code. This can be documented in a README, a link to a video, or screenshots. But we need to ensure that it's clear we understand what the code does. 

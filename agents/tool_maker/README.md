@@ -14,10 +14,11 @@ Where you have inserted your correct python path, this will run the file as if i
 You will be prompted to define a tool for creation. The assistant will then generate an OpenAI tool compatible JSON schema defining the name of the new function, it's description and the input argument schema. It will proceed to add this tool to the current assistant.
 
 (Example)
-![[imgs/DEMO.png]]
+![Example](imgs/DEMO.png)
 
 (Update to assistant on OpenAI servers)
-![[imgs/OpenAI_Tools.png]]
+
+![Update to assistant on OpenAI servers](imgs/OpenAI_Tools.PNG)
 
 ## Assistant Instructions
 
@@ -54,4 +55,4 @@ Note: Remember to prioritize user requirements and emphasize clear communication
 ```
 
 ## Flowchart
-![[imgs/flow.png]]
+![Flow Diagram](imgs/flow.png)
