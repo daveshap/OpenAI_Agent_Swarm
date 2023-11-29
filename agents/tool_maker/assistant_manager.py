@@ -1,4 +1,4 @@
-from tool_manager import ToolManager
+from agents.tool_maker.tool_manager import ToolManager
 from pathlib import Path
 import os
 import json
@@ -102,8 +102,9 @@ class AssistantManager:
 
 if __name__ == "__main__":
     from shared.openai_config import get_openai_client
+
     client = get_openai_client()
-    
+
     assistant_manager = AssistantManager(client=client)
     assistant = assistant_manager.get_assistant()
     print(assistant)
