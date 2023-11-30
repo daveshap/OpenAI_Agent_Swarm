@@ -1,11 +1,9 @@
 import importlib
 from pathlib import Path
-from tool_manager import ToolManager
+from agents.tool_maker.tool_manager import ToolManager
 import json
 import os
-
 from openai import OpenAI
-from tool_manager import ToolManager
 
 Assistant = type(OpenAI().beta.assistants.list().data[0])
 Thread = type(OpenAI().beta.threads.create())
@@ -14,11 +12,11 @@ Thread = type(OpenAI().beta.threads.create())
 class ChatManager:
     def __init__(self, client: OpenAI):
         self.client = client
-        Path(__file__).absolute().parent
         functions_path = os.path.join(
             Path(__file__).absolute().parent, "python_functions"
         )
         self.functions_path = functions_path
+        print(self.functions_path)
 
     def create_thread_from_user_input(self):
         return self.client.beta.threads.create(
@@ -30,12 +28,17 @@ class ChatManager:
 
     def run_python_from_function_name(self, call):
         print("CALLING FUNCTION")
+        base = ".".join(__name__.split(".")[:-1])
         try:
             function_name = call.function.name
+
             fn = getattr(
-                importlib.import_module(f"python_functions.{function_name}"),
+                importlib.reload(
+                    importlib.import_module(f"{base}.python_functions.{function_name}")
+                ),
                 function_name,
             )
+            print(fn)
             result = fn(**json.loads(call.function.arguments))
             response = {"tool_call_id": call.id, "output": f"result:{result}"}
         except Exception as error:
@@ -43,6 +46,7 @@ class ChatManager:
                 "tool_call_id": call.id,
                 "output": f"{{{type(error)}:{error.args}}}",
             }
+        print(response)
         return response
     
     def get_existing_functions(self):

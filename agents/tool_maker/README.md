@@ -5,15 +5,20 @@ This preliminary experiment has to do with getting the OpenAI Assistant endpoint
 This function is as-yet undefined.
 
 # Version 1
-run the ```unit_manager.py``` file.
+Ensure you have an OPENAI_API_KEY set following this guide: https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety
+Make sure you are in the root directory.
+run the ```unit_manager.py``` file using the following command.
+`<python_path> -m agents.tool_maker.unit_manager`.
+Where you have inserted your correct python path, this will run the file as if it was part of a module with root location.
 
 You will be prompted to define a tool for creation. The assistant will then generate an OpenAI tool compatible JSON schema defining the name of the new function, it's description and the input argument schema. It will proceed to add this tool to the current assistant.
 
 (Example)
-![[imgs/DEMO.png]]
+![Example](imgs/DEMO.png)
 
 (Update to assistant on OpenAI servers)
-![[imgs/OpenAI_Tools.png]]
+
+![Update to assistant on OpenAI servers](imgs/OpenAI_Tools.PNG)
 
 ## Assistant Instructions
 
@@ -50,4 +55,4 @@ Note: Remember to prioritize user requirements and emphasize clear communication
 ```
 
 ## Flowchart
-![[imgs/flow.png]]
+![Flow Diagram](imgs/flow.png)

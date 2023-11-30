@@ -8,7 +8,7 @@ The HAAS is designed to be a self-expanding system where a core set of agents, g
 
 ## Theoretical Foundation
 
-The AAHS is predicated on the notion that autonomous agents require a robust ethical and operational framework to make decisions that align with human values and organizational goals. This is rooted in the understanding that AI, much like humans, cannot operate effectively without a set of guiding principles or a moral compass. The HAAS addresses this by establishing a multi-tiered system where each layer of agents operates within a defined ethical and functional scope, ensuring decisions are made with consideration to morality, ethics, and utility.
+The HAAS is predicated on the notion that autonomous agents require a robust ethical and operational framework to make decisions that align with human values and organizational goals. This is rooted in the understanding that AI, much like humans, cannot operate effectively without a set of guiding principles or a moral compass. The HAAS addresses this by establishing a multi-tiered system where each layer of agents operates within a defined ethical and functional scope, ensuring decisions are made with consideration to morality, ethics, and utility.
 
 ## System Architecture
 

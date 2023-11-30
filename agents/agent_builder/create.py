@@ -3,17 +3,22 @@ import json
 from pathlib import Path
 from shared.openai_config import get_openai_client
 
+
 def create_assistants():
-    agents_path = os.path.join(
-            Path(__file__).absolute().parent, "agents"
-    )
+    agents_path = "agents"
     client = get_openai_client()
 
-    # Check if the 'agents' folder is empty or doesn't exist
-    if not os.path.exists(agents_path) or not os.path.isdir(agents_path) or not os.listdir(agents_path):
+   # Check if the 'agents' folder is empty or doesn't exist
+    if (
+        not os.path.exists(agents_path)
+        or not os.path.isdir(agents_path)
+        or not os.listdir(agents_path)
+    ):
         raise ValueError('The "agents" folder is missing, not a directory, or empty.')
 
+
     existing_assistants = {}
+
 
     for assistant in  client.beta.assistants.list(limit=100):
         existing_assistants[assistant.name] = assistant
@@ -21,8 +26,9 @@ def create_assistants():
 
     # Iterate over each folder inside the 'agents' folder
     for agent_name in os.listdir(agents_path):
-        agent_folder = os.path.join(agents_path, agent_name)
-
+        current_file_path = Path(__file__).absolute().parent
+        agent_folder = os.path.join(current_file_path, agents_path, agent_name)
+        print(agent_folder)
         existing_files = {}
         requested_files = []
         existing_agent = {}
@@ -35,8 +41,8 @@ def create_assistants():
 
         if os.path.isdir(agent_folder):
             # Read contents from the 'instructions.md' file
-            instructions = ''
-            instructions_file_path = os.path.join(agent_folder, 'instructions.md')
+            instructions = ""
+            instructions_file_path = os.path.join(agent_folder, "instructions.md")
             if os.path.isfile(instructions_file_path):
                 with open(instructions_file_path, 'r') as f:
                     instructions = f.read()
@@ -59,7 +65,9 @@ def create_assistants():
                         file_path = os.path.join(files_folder, filename)
                         with open(file_path, 'rb') as file_data:
                             # Upload each file to OpenAI
-                            file_object = client.files.create(file=file_data, purpose='assistants')
+                            file_object = client.files.create(
+                                file=file_data, purpose='assistants'
+                            )
                             files.append({"name": filename, "id": file_object.id})        
 
             print(agent_name)
@@ -131,6 +139,6 @@ def create_assistants():
                 # Create the assistant using the uploaded file IDs if files exist
                 assistant = client.beta.assistants.create(**create_params)
             print("***********************************************")
-
+n
 if __name__ == '__main__':
-    create_assistants()            
+    create_assistants()   
