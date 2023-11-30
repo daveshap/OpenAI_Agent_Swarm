@@ -18,7 +18,7 @@ class AgentBuilder:
     def create_assistant(self, agent_name):
         current_file_path = Path(__file__).absolute().parent
         agent_folder = os.path.join(current_file_path, self.agents_path, agent_name)
-        
+
         if (
             not os.path.exists(agent_folder)
             or not os.path.isdir(agent_folder)
@@ -157,5 +157,4 @@ class AgentBuilder:
 if __name__ == '__main__':
     client = get_openai_client()
     agent_builder = AgentBuilder(client=client)
-    agent_builder.create_assistant("tom")
-    #agent_builder.create_assistants()   
+    agent_builder.create_assistants()   
