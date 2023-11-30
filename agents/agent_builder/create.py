@@ -18,7 +18,14 @@ class AgentBuilder:
     def create_assistant(self, agent_name):
         current_file_path = Path(__file__).absolute().parent
         agent_folder = os.path.join(current_file_path, self.agents_path, agent_name)
-        #Could not create agent_name, they need to be defined in /agents/agent_builder/
+        
+        if (
+            not os.path.exists(agent_folder)
+            or not os.path.isdir(agent_folder)
+            or not os.listdir(agent_folder)
+        ):
+            raise ValueError(f'{agent_folder} is missing, not a directory, or empty.')
+        
         print(agent_folder)
         existing_files = {}
         requested_files = []
@@ -150,4 +157,5 @@ class AgentBuilder:
 if __name__ == '__main__':
     client = get_openai_client()
     agent_builder = AgentBuilder(client=client)
-    agent_builder.create_assistants()   
+    agent_builder.create_assistant("tom")
+    #agent_builder.create_assistants()   
