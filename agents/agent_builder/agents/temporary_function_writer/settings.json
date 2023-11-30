@@ -1,0 +1,17 @@
+{
+  "model": "gpt-4-1106-preview",
+  "description": "Function writer",
+  "tools": [
+    { "type": "code_interpreter" },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_existing_functions",
+        "description": "List available functions that can be called",
+        "parameters": { "type": "object", "properties": {} },
+        "required": []
+      }
+    }
+  ],
+  "metadata": {}
+}

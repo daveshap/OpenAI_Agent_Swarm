@@ -1,0 +1,33 @@
+{
+  "model": "gpt-4-1106-preview",
+  "description": "assistant to demonstrate tool creation",
+  "tools": [
+    { "type": "code_interpreter" },
+    {
+      "type": "function",
+      "function": {
+        "name": "function_request",
+        "description": "request an authority to grant you access to a new function",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "name of the function"
+            },
+            "description": {
+              "type": "string",
+              "description": "expected function behaviour"
+            },
+            "schema": {
+              "type": "string",
+              "description": "the input arguments for the requested function following the JOSN schema in a format ready to be serialized"
+            }
+          },
+          "required": ["name", "schema"]
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}
