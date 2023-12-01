@@ -1,8 +1,13 @@
-- name: "Uppercase"
-  id: "asst_OswAEoT5NnteGEzNIP9UOa7S"
-  talksTo: ["USER", "Lowercase", "Random case"]
-- name: "Lowercase" 
-  id: "asst_utnfDavVtGWkjFD3BEqXGR2O"
-  talksTo: ["Random case"]
-- name: "Random case"
-  id: "asst_wFxS2rVmN9rjKDy7znaeNo3T"
+- name: Uppercase
+  talksTo:
+    - USER
+    - Lowercase
+    - Random case
+  instructions: uppercase_instructions.md
+- name: Lowercase
+  talksTo:
+    - Random case
+  instructions: lowercase_instructions.md
+- name: Random case
+  talksTo: []
+  instructions: random_case_instructions.md
