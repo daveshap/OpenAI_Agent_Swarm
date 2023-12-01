@@ -12,6 +12,7 @@ import network
 from agent import Agent
 from agentProcessor import AgentProcessor
 from function_manager import FunctionManager
+from template_manager import TemplateManager
 from OAIWrapper import OAIWrapper
 import agentEnvHandler
 
@@ -36,7 +37,8 @@ if not args.agentsDefinitionFolder:
 
 # Construct the absolute path to the agents.yaml file
 workDir = pathlib.Path(__file__).parent.resolve()
-agentsYAML = os.path.join(workDir, args.agentsDefinitionFolder, "agents.yaml")
+agentsDefinitionDir = os.path.join(workDir, args.agentsDefinitionFolder)
+agentsYAML = os.path.join(agentsDefinitionDir, "agents.yaml")
 
 # Check if the provided file path exists
 if not os.path.isfile(agentsYAML):
@@ -50,7 +52,7 @@ with open(agentsYAML, 'r') as stream:
 ctx = Context(client, agents)
 
 # LOAD ENV IDs
-agentsIdsFile = os.path.join(workDir, args.agentsDefinitionFolder, "agentsIds.env")
+agentsIdsFile = os.path.join(agentsDefinitionDir, "agentsIds.env")
 # Ensure the file exists by opening it in append mode, then immediately close it
 with open(agentsIdsFile, 'a'):
     pass
@@ -68,10 +70,12 @@ print(f"Agents: {agents}")
 
 function_manager = FunctionManager()
 function_manager.load_functions()
+template_manager = TemplateManager([agentsDefinitionDir])
+template_manager.load_templates()
 
 # Create/update assistants.
 for agent in agents:
-    oai_wrapper = OAIWrapper(client, agent, function_manager)
+    oai_wrapper = OAIWrapper(client, agent, function_manager, template_manager)
     if not hasattr(agent, 'id'):  # It's a new agent
         oai_wrapper.createAssistant()
         agentEnvHandler.saveId(agentsIdsFile, agent)
