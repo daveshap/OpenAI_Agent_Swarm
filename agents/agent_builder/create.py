@@ -8,6 +8,10 @@ def create_assistants():
     agents_path = "agents"
     client = get_openai_client()
 
+    agents_path = os.path.join(
+            Path(__file__).absolute().parent, agents_path
+    )
+
    # Check if the 'agents' folder is empty or doesn't exist
     if (
         not os.path.exists(agents_path)
@@ -139,6 +143,6 @@ def create_assistants():
                 # Create the assistant using the uploaded file IDs if files exist
                 assistant = client.beta.assistants.create(**create_params)
             print("***********************************************")
-n
+
 if __name__ == '__main__':
     create_assistants()   
