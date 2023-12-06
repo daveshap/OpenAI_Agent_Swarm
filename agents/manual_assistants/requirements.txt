@@ -1,4 +1,5 @@
 docutils>=0.20.1
+Jinja2
 openai
 PyYAML
 requests

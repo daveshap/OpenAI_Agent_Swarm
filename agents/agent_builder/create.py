@@ -140,18 +140,22 @@ class AgentBuilder:
             print("***********************************************")
 
     def create_assistants(self):
+        agents_path = os.path.join(
+            Path(__file__).absolute().parent, self.agents_path
+        )
+
         # Check if the 'agents' folder is empty or doesn't exist
         if (
-            not os.path.exists(self.agents_path)
-            or not os.path.isdir(self.agents_path)
-            or not os.listdir(self.agents_path)
+            not os.path.exists(agents_path)
+            or not os.path.isdir(agents_path)
+            or not os.listdir(agents_path)
         ):
-            raise ValueError('The "agents" folder is missing, not a directory, or empty.')
+            raise ValueError(f'The "{self.agents_path}" folder is missing, not a directory, or empty.')
 
         self.get_existing_assistants()
 
         # Iterate over each folder inside the 'agents' folder
-        for agent_name in os.listdir(self.agents_path):
+        for agent_name in os.listdir(agents_path):
             self.create_assistant(agent_name)
 
 if __name__ == '__main__':
