@@ -1,3 +1,8 @@
 {
-    "name": "tool_creator"
+    "creator": {
+        "name": "tool_creator"
+    },
+    "writer": {
+        "name": "temporary_function_writer"
+    }
 }
