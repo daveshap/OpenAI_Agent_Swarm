@@ -60,7 +60,7 @@ class ChatManager:
                         results.append(file)
         return results
 
-    def handle_fucntion_request(
+    def handle_function_request(
         self,
         call,
         interface_assistant: Assistant,
