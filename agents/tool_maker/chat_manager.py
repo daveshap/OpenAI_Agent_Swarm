@@ -60,7 +60,7 @@ class ChatManager:
                         results.append(file)
         return results
 
-    def handle_fucntion_request(
+    def handle_function_request(
         self,
         call,
         interface_assistant: Assistant,
@@ -180,7 +180,7 @@ class ChatManager:
                 for call in run.required_action.submit_tool_outputs.tool_calls:
                     print(f"calling: {call.function.name}")
                     if call.function.name == "function_request":
-                        interface_assistant, response = self.handle_fucntion_request(
+                        interface_assistant, response = self.handle_function_request(
                             call=call,
                             interface_assistant=interface_assistant,
                             interface_thread=interface_thread,
