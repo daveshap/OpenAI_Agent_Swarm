@@ -136,7 +136,7 @@ class AgentBuilder:
                     create_params['file_ids'] = list(map(lambda x: x['id'], files))
 
                 # Create the assistant using the uploaded file IDs if files exist
-                assistant = self.client.beta.assistants.create(**create_params)
+                #assistant = self.client.beta.assistants.update(**update_params)
             print("***********************************************")
 
     def create_assistants(self):
